@@ -1,0 +1,68 @@
+# -------------------
+# Basic Config
+# -------------------
+HISTFILE="${HOME}/.zsh_history"
+HISTSIZE=2000
+SAVEHIST=5000
+setopt nomatch
+unsetopt autocd beep extendedglob notify
+bindkey -v
+
+
+# -------------------
+# Completion
+# -------------------
+zmodload zsh/complist 
+autoload -Uz compinit
+compinit
+zstyle :compinstall filename '${HOME}/.zshrc'
+
+
+# -------------------
+# Aliases
+# -------------------
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto -F'
+    alias dir='dir --color=auto'
+    alias vdir='vdir --color=auto'
+
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+
+    alias diff='diff --color=auto'
+    alias ip='ip -color=auto'
+    alias less='less --use-color'
+fi
+
+alias ll='ls -alh'
+alias la='ls -A'
+alias l='ls -CF'
+
+alias vim="nvim"
+alias vi="nvim"
+
+alias ssh="TERM=screen-256color ssh"
+alias init-nvim='source /usr/share/nvm/init-nvm.sh'
+
+
+# -------------------
+# Exports
+# -------------------
+export PATH="${HOME}/.local/bin:$PATH"
+export PATH="${HOME}/.local/src/MATLAB/R2022a/bin:$PATH"
+export EDITOR="nvim"
+
+
+# -------------------
+# Miscellaneous
+# -------------------
+. "${HOME}/.cargo/env"
+fpath+=${ZDOTDIR:-~}/.zsh_functions
+
+
+# -------------------
+# Prompt
+# -------------------
+eval "$(starship init zsh)"
