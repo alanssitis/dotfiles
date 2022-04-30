@@ -52,7 +52,6 @@ alias init-nvim='source /usr/share/nvm/init-nvm.sh'
 # -------------------
 export PATH="${HOME}/.local/bin:$PATH"
 export PATH="${HOME}/.local/src/MATLAB/R2022a/bin:$PATH"
-export EDITOR="nvim"
 
 
 # -------------------
