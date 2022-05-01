@@ -44,7 +44,6 @@ alias vim="nvim"
 alias vi="nvim"
 
 alias ssh="TERM=screen-256color ssh"
-alias init-nvim='source /usr/share/nvm/init-nvm.sh'
 
 
 # -------------------
@@ -59,6 +58,7 @@ export PATH="${HOME}/.local/src/MATLAB/R2022a/bin:$PATH"
 # -------------------
 . "${HOME}/.cargo/env"
 fpath+=${ZDOTDIR:-~}/.zsh_functions
+source /usr/share/nvm/init-nvm.sh
 
 
 # -------------------
