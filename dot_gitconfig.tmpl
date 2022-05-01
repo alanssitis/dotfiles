@@ -1,6 +1,8 @@
 [user]
     name = {{ .git_name | quote }}
     email = {{ .git_email | quote }}
+[init]
+    defaultBranch = main
 [pull]
     rebase = true
 [color]
