@@ -1,0 +1,15 @@
+Host ecegrid
+    HostName ecegrid.ecn.purdue.edu
+    User achungma
+
+Host shay
+    HostName shay.ecn.purdue.edu
+    User achungma
+
+Host tsel
+    HostName tsel.purdue.wtf
+    User alan
+
+Host seal
+    HostName seal.purdue.wtf
+    User alan
