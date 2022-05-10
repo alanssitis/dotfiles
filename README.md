@@ -1,0 +1,2 @@
+# My Dotfiles
+Utilizes [`chezmoi`](https://www.chezmoi.io/) to manage the configurations and dotfiles. Some scripts were taken from [ThePrimeagen](https://github.com/ThePrimeagen/.dotfiles). I use it to maintain configuration consistency with both my laptops, and future devices. I am looking to expand this to include more of my system when I eventually switch to a more configurable WM, maybe sway.
