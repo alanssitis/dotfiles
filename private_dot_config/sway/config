@@ -5,13 +5,7 @@ set $down j
 set $up k
 set $right l
 set $term alacritty
-set $menu wofi --show run
-
-# Input configuration
-input "type:keyboard" {
-    xkb_layout us
-    xkb_options caps:escape
-}
+set $menu wofi --show=drun --lines=8
 
 # Borders
 gaps inner 5
@@ -23,10 +17,22 @@ gaps top 0
 
 default_border pixel 2
 
+# Input configuration
+input "type:keyboard" {
+    xkb_layout us
+    xkb_options caps:escape
+}
+input "type:touchpad" {
+    tap enabled
+    natural_scroll enabled
+}
+
 # Display
 output * {
     bg /home/achungma/Pictures/wallpaper.jpg fill
 }
+
+### Keybindings
 
 # Basics:
 bindsym $mod+Return exec $term
@@ -113,8 +119,16 @@ mode "resize" {
 }
 
 # Status Bar:
-bar swaybar_command {
-    waybar
+bar {
+    swaybar_command waybar
+    position top
 }
+
+# Execs
+exec swayidle -w \
+	timeout 300 'swaylock -f' \
+	timeout 330 'swaymsg "output * dpms off"' \
+	resume 'swaymsg "output * dpms on"'
+exec wl-paste -t text --watch clipman store --no-persist
 
 include /etc/sway/config.d/*
