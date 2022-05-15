@@ -52,6 +52,7 @@ alias ssh="TERM=screen-256color ssh"
 export PATH="${HOME}/.local/bin:${HOME}/go/bin:$PATH"
 export PATH="${HOME}/.local/src/MATLAB/R2022a/bin:$PATH"
 export SUDO_EDITOR="nvim"
+export GPG_TTY=$(tty)
 
 
 # -------------------

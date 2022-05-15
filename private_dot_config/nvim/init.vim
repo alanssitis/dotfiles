@@ -18,7 +18,7 @@ Plug 'ThePrimeagen/harpoon'
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'sbdchd/neoformat'
 
-Plug 'sonph/onehalf', { 'rtp': 'vim' }
+Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 Plug 'kyazdani42/nvim-web-devicons'
 
 Plug 'evanleck/vim-svelte', {'branch': 'main'}
@@ -67,5 +67,5 @@ require'lualine'.setup {
 }
 END
 set termguicolors
-colorscheme onehalfdark
+colorscheme catppuccin
 hi Normal guibg=NONE ctermbg=NONE
