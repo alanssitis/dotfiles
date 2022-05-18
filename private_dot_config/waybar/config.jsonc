@@ -1,11 +1,34 @@
 {
     "layer": "top",
-    "position": "top",
-    "height": 24,
-    "spacing": 4,
-    "modules-left": ["sway/workspaces", "sway/window"],
-    "modules-center": ["clock"],
-    "modules-right": ["battery", "network"],
+    "modules-left": ["custom/launcher", "cpu", "memory", "network"],
+    "modules-center": ["sway/workspaces"],
+    "modules-right": ["backlight", "pulseaudio", "clock", "battery", "custom/power"],
+
+    "custom/launcher": {
+        "tooltip": false,
+        "format": " ",
+        "on-click": "wofi --show=run --lines=8",
+        "on-click-right": "killall wofi"
+    },
+    "cpu": {
+        "interval": 15,
+        "format": " {}%",
+        "max-length": 10
+    },
+    "memory": {
+        "interval": 30,
+        "format": " {}%",
+        "max-length": 10
+    },
+    "network": {
+        "format-wifi": "{essid} ({signalStrength}%)  ",
+        "format-ethernet": "{ipaddr}/{cidr}  ",
+        "tooltip-format": "{ifname} via {gwaddr}",
+        "format-linked": "{ifname} (No IP)  ",
+        "format-disconnected": "Disconnected ⚠ ",
+        "format-alt": "{ifname}: {ipaddr}/{cidr}"
+    },
+
     "sway/workspaces": {
         "disable-scroll": true,
         "all-outputs": true,
@@ -20,44 +43,51 @@
             "7": [],
             "8": [],
             "9": [],
-            "10": [],
-        },
-        "format-icons": {
-            "default": "",
-            "urgent": "",
-            "focused": "",
-        },
+            "10": []
+        }
     },
-    "sway/window": {
-        "format": "{}",
-        "max-length": 30,
+
+    "backlight": {
+        "tooltip": false,
+		"format": " {}%",
+		"interval":1,
+        "on-scroll-up": "light -A 5",
+		"on-scroll-down": "light -U 5"
+    },
+    "pulseaudio": {
+        "tooltip": false,
+		"scroll-step": 5,
+		"format": "{icon} {volume}%",
+		"format-muted": "{icon}  mute",
+		"on-click":"pactl set-sink-mute @DEFAULT_SINK@ toggle",
+		"format-icons": {
+			"default": ["", "", ""]
+		}
     },
     "clock": {
-        "format": "{:%a %d %b %I:%M %p}",
-        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "tooltip": false,
+        "format": "{:%I:%M %p    %a %d/%m/%Y}"
     },
     "battery": {
         "states": {
+            "good": 80,
             "warning": 30,
-            "critical": 15,
+            "critical": 15
         },
-        "format": "<span size='13000'>{icon}</span> {capacity}%",
-        "format-warning": "<span size='13000'>{icon}</span> {capacity}%",
-        "format-critical": "<span size='13000'>{icon}</span> {capacity}%",
-        "format-charging": "<span size='13000'> </span>{capacity}%",
-        "format-plugged": "<span size='13000'> </span>{capacity}%",
-        "format-alt": "<span size='13000'>{icon}</span> {time}",
-        "format-full": "<span size='13000'> </span>{capacity}%",
+        "format": "{icon}  {capacity}%",
+        "format-warning": "{icon}  {capacity}%",
+        "format-critical": "{icon}  {capacity}%",
+        "format-charging": "  {capacity}%",
+        "format-plugged": "  {capacity}%",
+        "format-alt": "{icon}  {time}",
+        "format-full": "  {capacity}%",
         "format-icons": ["", "", "", "", ""],
         "tooltip-format": "{time}"
 	},
-    "network": {
-        "format-wifi": "{essid} ({signalStrength}%) ",
-        "format-ethernet": "{ipaddr}/{cidr} ",
-        "tooltip-format": "{ifname} via {gwaddr} ",
-        "format-linked": "{ifname} (No IP) ",
-        "format-disconnected": "Disconnected ⚠",
-        "format-alt": "{ifname}: {ipaddr}/{cidr}"
-    },
+    "custom/power": {
+        "tooltip": false,
+        "format": " ",
+        "on-click": "alacritty",
+    }
 }
 
