@@ -24,13 +24,15 @@ Plug 'kyazdani42/nvim-web-devicons'
 Plug 'evanleck/vim-svelte', {'branch': 'main'}
 
 Plug 'neovim/nvim-lspconfig'
-Plug 'rust-lang/rust.vim'
+Plug 'simrat39/rust-tools.nvim'
+Plug 'pest-parser/pest.vim'
 
 Plug 'edkolev/tmuxline.vim'
 call plug#end()
 
 lua << END
 require'lspconfig'.ccls.setup{}
+require'lspconfig'.gopls.setup{}
 require'lspconfig'.pyright.setup{}
 require'lspconfig'.svelte.setup{}
 require'lspconfig'.rust_analyzer.setup{}

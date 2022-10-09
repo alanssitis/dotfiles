@@ -6,6 +6,7 @@ set $up k
 set $right l
 
 set $term alacritty
+set $web firefox
 set $menu wofi --show=run --lines=8
 
 # Input configuration
@@ -37,6 +38,7 @@ default_border none
 
 # Basics:
 bindsym $mod+Return exec $term
+bindsym $mod+Backslash exec $web
 bindsym $mod+Shift+q kill
 bindsym $mod+d exec $menu
 
@@ -114,6 +116,16 @@ mode "resize" {
     bindsym Escape mode "default"
 }
 
+# Multimedia buttons:
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86MonBrightnessDown exec light -U 5
+bindsym XF86MonBrightnessUp exec light -A 5
+
+# Lock when display closed
+bindswitch --reload --locked lid:on exec swaylock
+
 # Status Bar:
 bar {
     swaybar_command waybar
@@ -121,10 +133,6 @@ bar {
 }
 
 # Execs
-exec swayidle -w \
-	timeout 300 'swaylock -f' \
-	timeout 330 'swaymsg "output * dpms off"' \
-	resume 'swaymsg "output * dpms on"'
 exec wl-paste -t text --watch clipman store --no-persist
 
 include /etc/sway/config.d/*
