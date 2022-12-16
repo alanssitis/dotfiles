@@ -7,7 +7,7 @@ set $right l
 
 set $term alacritty
 set $web firefox
-set $menu wofi --show=run --lines=8
+set $menu wofi --show=run
 
 # Input configuration
 input "type:keyboard" {
@@ -32,7 +32,7 @@ gaps right 0
 gaps bottom 0
 gaps top 0
 
-default_border none
+default_border pixel
 
 ### Keybindings
 
