@@ -50,7 +50,6 @@ alias ssh="TERM=screen-256color ssh"
 # Exports
 # -------------------
 export PATH="${HOME}/.local/bin:${HOME}/go/bin:$PATH"
-export PATH="$PATH:/opt/arm/developmentstudio-2022.1/bin"
 export SUDO_EDITOR="nvim"
 export GPG_TTY=$(tty)
 
@@ -62,10 +61,7 @@ export GPG_TTY=$(tty)
 fpath+=${ZDOTDIR:-~}/.zsh_functions
 
 # nvm initialization
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
+source /usr/share/nvm/init-nvm.sh
 
 # -------------------
 # Prompt
