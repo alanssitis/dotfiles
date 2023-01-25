@@ -12,6 +12,7 @@ bindkey -v
 # -------------------
 # Completion
 # -------------------
+fpath+=${ZDOTDIR:-~}/.zsh_functions
 zmodload zsh/complist 
 autoload -Uz compinit
 compinit
@@ -58,7 +59,6 @@ export GPG_TTY=$(tty)
 # Miscellaneous
 # -------------------
 . "${HOME}/.cargo/env"
-fpath+=${ZDOTDIR:-~}/.zsh_functions
 
 # nvm initialization
 source /usr/share/nvm/init-nvm.sh

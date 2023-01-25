@@ -135,4 +135,14 @@ bar {
 # Execs
 exec wl-paste -t text --watch clipman store --no-persist
 
+# Assign workspaces
+assign [class="Slack"] workspace number 8
+assign [class="discord"] workspace number 9
+assign [app_id="thunderbird"] workspace number 10
+
+exec swaymsg "workspace 8; exec slack"
+exec swaymsg "workspace 9; exec discord"
+exec swaymsg "workspace 10; exec firefox --new-window calendar.google.com/"
+exec swaymsg "workspace 10; exec thunderbird"
+
 include /etc/sway/config.d/*
