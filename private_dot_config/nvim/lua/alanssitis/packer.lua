@@ -47,6 +47,7 @@ return require('packer').startup(function(use)
 	  }
   }
 
+  use 'lervag/vimtex'
   use 'gpanders/editorconfig.nvim'
 
 end)
