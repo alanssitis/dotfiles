@@ -9,10 +9,10 @@ return require('packer').startup(function(use)
   }
 
   use { 
-	  'catppuccin/nvim', 
-	  as = 'catppuccin',
+	  'Mofiqul/dracula.nvim', 
+	  as = 'dracula',
 	  config = function()
-		  vim.cmd('colorscheme catppuccin')
+		  vim.cmd('colorscheme dracula')
 	  end
   }
 

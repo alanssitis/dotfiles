@@ -1,6 +1,6 @@
 README.md
 key.txt.age
 
-{{- if ne .chezmoi.hostname "arch-xps" }}
+{{- if ne .chezmoi.hostname "pop-os" }}
 .ssh
 {{- end }}
