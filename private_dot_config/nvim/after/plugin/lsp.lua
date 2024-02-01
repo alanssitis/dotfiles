@@ -2,12 +2,6 @@ local lsp = require('lsp-zero')
 
 lsp.preset('recommended')
 
-lsp.ensure_installed({
-	'gopls',
-	'pyright',
-	'rust_analyzer',
-})
-
 lsp.set_preferences({
 	sign_icons = { }
 })
@@ -27,4 +21,9 @@ lsp.on_attach(function(client, bufnr)
 	vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
 end)
 
-lsp.setup()
+require('mason').setup({})
+require('mason-lspconfig').setup({
+    handlers = {
+        lsp.default_setup,
+    }
+})
