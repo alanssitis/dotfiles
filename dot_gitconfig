@@ -1,0 +1,29 @@
+[user]
+	name = Alan Chung Ma
+	email = alanchunggt@gmail.com
+[init]
+	defaultBranch = main
+[pull]
+	rebase = true
+[color]
+	ui = auto
+[core]
+	editor = nvim
+	pager = delta
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true
+	side-by-side = true
+[merge]
+	conflictstyle = diff3
+[diff]
+	colorMoved = default
+[includeIf "gitdir:~/Work/"]
+	path = ~/.gitconfig_keytos
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
