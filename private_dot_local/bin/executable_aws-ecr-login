@@ -3,7 +3,10 @@
 PROFILE="$(gum choose --select-if-one $(aws configure list-profiles))"
 
 REGISTRY_ID="$(aws ecr describe-registry --profile $PROFILE | jq -r .registryId)"
-REGION="$(aws configure get region --profile $PROFILE)"
+if [ -z $REGION ]; then
+	REGION="$(aws configure get region --profile $PROFILE)"
+fi
 REGISTRY_URL="${REGISTRY_ID}.dkr.ecr.${REGION}.amazonaws.com"
 
-aws ecr get-login-password --profile $PROFILE | docker login --username AWS --password-stdin $REGISTRY_URL
+aws ecr get-login-password --profile $PROFILE --region $REGION \
+	| docker login --username AWS --password-stdin $REGISTRY_URL
