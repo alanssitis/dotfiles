@@ -125,6 +125,7 @@ fi
 export PATH="~/.local/bin:~/.pyenv/bin:$PATH"
 export EDITOR=nvim
 export ASPNETCORE_ENVIRONMENT=Development
+export DOTNET_ROOT=/usr/share/dotnet
 
 # Languate setups
 [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
@@ -140,5 +141,3 @@ export NVM_DIR="$HOME/.nvm"
 
 # starship
 eval "$(starship init bash)"
-
-complete -C /usr/bin/terraform terraform
