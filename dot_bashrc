@@ -1,0 +1,48 @@
+set -o vi
+
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+
+HISTCONTROL=ignoreboth
+shopt -s histappend
+HISTSIZE=1000
+HISTFILESIZE=2000
+
+shopt -s checkwinsize
+shopt -s globstar
+
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+case "$TERM" in
+    xterm-color|*-256color);;
+esac
+
+# enable programmable completion features
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
+
+if [ -f ~/.bash_os_specific ]; then
+    . ~/.bash_os_specific
+fi
+
+if [ -f ~/.bash_exports ]; then
+    . ~/.bash_exports
+fi
+
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+
+if [ -f ~/.bash_language_setup ]; then
+    . ~/.bash_language_setup
+fi
+
+eval "$(zellij setup --generate-auto-start bash)"
+eval "$(starship init bash)"
