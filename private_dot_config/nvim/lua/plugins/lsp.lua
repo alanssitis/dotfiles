@@ -9,26 +9,26 @@ return {
 			{ "j-hui/fidget.nvim", opts = {} },
 
 			{
-				'folke/lazydev.nvim',
-				ft = 'lua',
+				"folke/lazydev.nvim",
+				ft = "lua",
 				opts = {
 					library = {
 						-- load luvit types when the `vim.uv` word is found
-						{ path = '${3rd}/luv/library', words = { 'vim%.uv' } },
+						{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
 					},
 				},
 			},
 		},
 		config = function()
 			local servers = {
-				astro = true,
-				bashls = true,
-				clangd = true,
-				gopls = true,
-				lua_ls = true,
-				pyright = true,
-				rust_analyzer = true,
-				tailwindcss = true,
+				"astro",
+				"bashls",
+				"clangd",
+				"gopls",
+				"lua_ls",
+				"pyright",
+				"rust_analyzer",
+				"tailwindcss",
 			}
 
 			require("mason").setup()

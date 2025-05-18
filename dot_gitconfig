@@ -1,6 +1,7 @@
 [user]
 	name = Alan Chung Ma
 	email = alan@chung-ma.com
+	signingkey = /home/alan/.ssh/id_ed25519_sk_github_signing.pub
 [core]
 	editor = nvim
 	pager = delta
@@ -16,3 +17,7 @@
 	updateRefs = true
 [merge]
 	conflictstyle = diff3
+[gpg]
+	format = ssh
+[commit]
+	gpgsign = true
