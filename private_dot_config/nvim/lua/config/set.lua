@@ -9,7 +9,7 @@ vim.g.have_nerd_font = true
 vim.opt.number = true
 vim.opt.relativenumber = true
 
--- shown in 
+-- shown in
 -- vim.opt.showmode = false
 
 -- separate concerns between nvim and system
@@ -50,3 +50,5 @@ vim.opt.scrolloff = 5
 
 -- highlight on search
 vim.opt.hlsearch = true
+
+vim.opt.colorcolumn = "79"
