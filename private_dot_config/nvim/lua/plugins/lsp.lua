@@ -31,13 +31,19 @@ return {
 				"tailwindcss",
 			}
 
-			require("mason").setup()
+			require("mason").setup({})
 			require("mason-lspconfig").setup({
 				automatic_enable = true,
 				ensure_installed = servers,
 			})
-
-			vim.lsp.enable('gleam')
 		end,
+		init = function()
+			vim.filetype.add({
+				extension = {
+					razor = "razor",
+					cshtml = "razor",
+				},
+			})
+		end
 	},
 }

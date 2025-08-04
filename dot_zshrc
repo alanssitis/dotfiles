@@ -1,0 +1,75 @@
+##################
+### zsh config ###
+##################
+
+# history
+HISTFILE=~/.zsh_history
+HISTSIZE=1000
+SAVEHIST=1000
+
+# set and unsets
+setopt extendedglob nomatch notify
+unsetopt autocd beep
+
+# vim keybinds
+bindkey -v
+
+
+####################
+### autocomplete ###
+####################
+
+zstyle :compinstall filename '/home/alan/.zshrc'
+autoload -Uz compinit
+compinit
+
+
+#########################
+### aliases & exports ###
+#########################
+
+# color aliases
+if [ -x /usr/bin/dircolors ]; then
+	test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+
+	alias ls='ls --color=auto'
+	alias dir='dir --color=auto'
+	alias vdir='vdir --color=auto'
+
+	alias grep='grep --color=auto'
+	alias fgrep='fgrep --color=auto'
+	alias egrep='egrep --color=auto'
+fi
+
+# common aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
+# editor
+alias vi=nvim
+alias vim=nvim
+export EDITOR=nvim
+
+
+##########################
+### environment setups ###
+##########################
+
+# nvm
+if [ -z "${NVM_DIR:-}" ]; then
+  NVM_DIR="$HOME/.nvm"
+  [ -n "${XDG_CONFIG_HOME:-}" ] && NVM_DIR="$XDG_CONFIG_HOME/nvm"
+fi
+export NVM_DIR
+[ ! -e "$NVM_DIR" ] && mkdir -vp "$NVM_DIR"
+[ ! -e "$NVM_DIR/nvm.sh" ] && ln -vs /usr/share/nvm/nvm.sh "$NVM_DIR/nvm.sh"
+[ ! -e "$NVM_DIR/nvm-exec" ] && ln -vs /usr/share/nvm/nvm-exec "$NVM_DIR/nvm-exec"
+
+
+#####################
+### terminal init ###
+#####################
+
+eval "$(zoxide init zsh --cmd cd)"
+eval "$(starship init zsh)"
