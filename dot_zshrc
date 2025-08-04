@@ -56,6 +56,9 @@ export EDITOR=nvim
 ### environment setups ###
 ##########################
 
+# local bin
+export PATH="$PATH:$HOME/.local/bin"
+
 # nvm
 if [ -z "${NVM_DIR:-}" ]; then
   NVM_DIR="$HOME/.nvm"
