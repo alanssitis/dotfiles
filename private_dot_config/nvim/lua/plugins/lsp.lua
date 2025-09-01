@@ -6,7 +6,9 @@ return {
 			"mason-org/mason.nvim",
 			"mason-org/mason-lspconfig.nvim",
 
-			{ "j-hui/fidget.nvim", opts = {} },
+			{ "seblyng/roslyn.nvim", opts = {} },
+
+			{ "j-hui/fidget.nvim",   opts = {} },
 
 			{
 				"folke/lazydev.nvim",
@@ -31,11 +33,18 @@ return {
 				"tailwindcss",
 			}
 
-			require("mason").setup({})
+			require("mason").setup({
+				registries = {
+					"github:mason-org/mason-registry",
+					"github:Crashdummyy/mason-registry",
+				},
+			})
 			require("mason-lspconfig").setup({
 				automatic_enable = true,
 				ensure_installed = servers,
 			})
+
+			vim.lsp.enable("roslyn")
 		end,
 		init = function()
 			vim.filetype.add({

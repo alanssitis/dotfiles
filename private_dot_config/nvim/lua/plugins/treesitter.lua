@@ -39,7 +39,7 @@ return {
 				modules = {},
 			})
 
-			vim.keymap.set("n", "<leader>tc", "<CMD>:TSContextToggle<CR>", { desc = "[T]oggle [C]ontext" })
+			vim.keymap.set("n", "<leader>tc", "<CMD>:TSContext toggle<CR>", { desc = "[T]oggle [C]ontext" })
 		end,
 	},
 }
