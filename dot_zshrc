@@ -57,7 +57,7 @@ export EDITOR=nvim
 ##########################
 
 # local bin
-export PATH="$PATH:$HOME/.local/bin"
+export PATH="$PATH:$HOME/.local/bin:$HOME/.cargo/bin"
 
 # nvm
 if [ -z "${NVM_DIR:-}" ]; then

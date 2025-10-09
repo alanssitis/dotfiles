@@ -30,11 +30,15 @@
         "disable-scroll": true,
         "all-outputs": false,
         "warp-on-scroll": false,
-        "format": "{name}: {icon}",
+        "format": "{name}| {icon}",
         "format-icons": {
-	    "active": "󰐾",
-	    "default": "󰄰",
-	    "urgent": "󰺕"
+            "1": "",
+            "2": "󰭹",
+            "3": "󰎞",
+            "default": ""
+        },
+        "persistent-workspaces": {
+            "eDP-1": 3
         }
     },
     "mpd": {
