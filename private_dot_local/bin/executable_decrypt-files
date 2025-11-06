@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 if [ ! -f "$1" ]; then
 	echo "need to pass one argument that is a file"
 	exit 1
@@ -7,4 +9,5 @@ fi
 
 age --decrypt -i ~/.local/share/alan/file_encryption_age/identity.txt $1 \
 	| tar -xzv
+
 rm $1

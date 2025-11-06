@@ -44,5 +44,5 @@ if [ -f ~/.bash_language_setup ]; then
     . ~/.bash_language_setup
 fi
 
-eval "$(zellij setup --generate-auto-start bash)"
+eval "$(zoxide init bash --cmd cd)"
 eval "$(starship init bash)"

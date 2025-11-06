@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 if [ ! -d "$1" ]; then
 	echo "need to pass one argument that is a directory"
 	exit 1
@@ -9,4 +11,5 @@ tar -czv $1 | age \
 	-r age1yubikey1q2tkk35vvytt7rn2cedjc8jzcjm0zlun7gl9llyjc7vdpxugn0g5spvla6w \
 	-r age1yubikey1qdvukgdwly69vyw6rp88a7ajgadx0x407jfrnhuywdwxvpwq55syuy3r5d7 \
 	> ${1%/}.tar.gz.age
+
 rm -rf $1
