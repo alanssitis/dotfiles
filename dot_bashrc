@@ -44,5 +44,5 @@ if [ -f ~/.bash_language_setup ]; then
     . ~/.bash_language_setup
 fi
 
-eval "$(zoxide init bash --cmd cd)"
 eval "$(starship init bash)"
+eval "$(zoxide init bash --cmd cd)"
