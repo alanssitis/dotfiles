@@ -1,0 +1,19 @@
+#!/bin/bash
+
+set -e
+
+FILE=$1
+
+if [ ! -n "$FILE" ]; then
+	FILE=$(fd --extension=pdf | fzf)
+	if [ ! -n "$FILE" ]; then
+		>&2 echo "No file chosen"
+		exit 1
+	fi
+elif [ ! -f "$FILE" ]; then
+	>&2 echo "\"$1\" does not exist"
+	exit 1
+fi
+
+>&2 echo "Opening \"$FILE\""
+zathura "$FILE" > /dev/null 2>&1 &
