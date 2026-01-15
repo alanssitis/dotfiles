@@ -20,7 +20,7 @@ set $wsp_msg_pers number 4
 ### Output configuration
 #
 output eDP-1 {
-    scale 1.25
+    scale 1
     background ~/Pictures/Wallpapers/yosemite.png fill
 }
 

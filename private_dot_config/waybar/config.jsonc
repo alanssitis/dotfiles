@@ -7,12 +7,13 @@
     // Choose the order of the modules
     "modules-left": [
         "clock",
-        "hyprland/workspaces",
-        "hyprland/scratchpad",
+        "sway/mode",
+        "sway/workspaces",
+        "sway/scratchpad",
         "custom/media"
     ],
     "modules-center": [
-        "hyprland/window"
+        "sway/window"
     ],
     "modules-right": [
         "mpd",
@@ -23,22 +24,26 @@
 
     // Module configuration
     "clock": {
-        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-        "format-alt": "{:%Y-%m-%d}"
+        "format": "{:%Y-%m-%d %H:%M}",
+        "tooltip-format": "<tt><big>{calendar}</big></tt>"
     },
-    "hyprland/workspaces": {
-        "disable-scroll": true,
+    "sway/workspaces": {
         "all-outputs": false,
+        "disable-scroll": true,
         "warp-on-scroll": false,
         "format": "{name}| {icon}",
         "format-icons": {
             "1": "",
-            "2": "󰭹",
-            "3": "󰎞",
+            "2": "󰇮",
+            "3": "󰻞",
+            "4": "󰭹",
             "default": ""
         },
         "persistent-workspaces": {
-            "eDP-1": 3
+            "1": ["eDP-1"],
+            "2": ["eDP-1"],
+            "3": ["eDP-1"],
+            "4": ["eDP-1"]
         }
     },
     "mpd": {

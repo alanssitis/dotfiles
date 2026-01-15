@@ -2,13 +2,15 @@ return {
 	{
 		"neovim/nvim-lspconfig",
 		dependencies = {
+			"tamarin-prover/editors",
+
 			-- LSP manager
 			"mason-org/mason.nvim",
 			"mason-org/mason-lspconfig.nvim",
 
 			{ "seblyng/roslyn.nvim", opts = {} },
 
-			{ "j-hui/fidget.nvim",   opts = {} },
+			{ "j-hui/fidget.nvim", opts = {} },
 
 			{
 				"folke/lazydev.nvim",
@@ -53,6 +55,6 @@ return {
 					cshtml = "razor",
 				},
 			})
-		end
+		end,
 	},
 }
