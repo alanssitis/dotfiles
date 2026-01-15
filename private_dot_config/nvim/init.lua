@@ -3,6 +3,7 @@
 require("config.set")
 require("config.keyremap")
 require("config.autocmd")
+require("config.filetype")
 
 -- bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"

@@ -2,13 +2,13 @@ return {
 	{
 		"neovim/nvim-lspconfig",
 		dependencies = {
+			"tamarin-prover/editors",
+
 			-- LSP manager
 			"mason-org/mason.nvim",
 			"mason-org/mason-lspconfig.nvim",
 
-			{ "seblyng/roslyn.nvim", opts = {} },
-
-			{ "j-hui/fidget.nvim",   opts = {} },
+			{ "j-hui/fidget.nvim", opts = {} },
 
 			{
 				"folke/lazydev.nvim",
@@ -43,16 +43,6 @@ return {
 				automatic_enable = true,
 				ensure_installed = servers,
 			})
-
-			vim.lsp.enable("roslyn")
 		end,
-		init = function()
-			vim.filetype.add({
-				extension = {
-					razor = "razor",
-					cshtml = "razor",
-				},
-			})
-		end
 	},
 }
