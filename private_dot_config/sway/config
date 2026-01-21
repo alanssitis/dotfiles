@@ -12,16 +12,33 @@ set $term ghostty
 # Your preferred application launcher
 set $menu wofi --show drun
 # Workspaces
-set $wsp_browser number 1
-set $wsp_email number 2
-set $wsp_msg_work number 3
-set $wsp_msg_pers number 4
+set $wsp_browser 1
+set $wsp_email 2
+set $wsp_msg_work 3
+set $wsp_msg_pers 4
+set $wsp_flex 5
+# Display
+set $laptop_screen eDP-1
+set $external_screen DP-1
+
+### Workspace Config
+#
+workspace $wsp_browser output $laptop_screen
+workspace $wsp_email output $laptop_screen
+workspace $wsp_msg_work output $laptop_screen
+workspace $wsp_msg_pers output $laptop_screen
+workspace $wsp_flex output $laptop_screen
 
 ### Output configuration
 #
-output eDP-1 {
+output $laptop_screen {
     scale 1
     background ~/Pictures/Wallpapers/yosemite.png fill
+}
+
+output $external_screen {
+    scale 1.5
+    background ~/Pictures/Wallpapers/santa-cruz.jpg fill
 }
 
 ### Idle configuration
