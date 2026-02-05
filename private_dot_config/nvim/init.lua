@@ -254,3 +254,8 @@ require("todo-comments").setup({})
 require("which-key").setup({})
 require("ibl").setup({})
 require("gitsigns").setup({})
+
+-- PACK AUTOMATIC UPDATE KEYBIND --
+vim.keymap.set("n", "<leader>pu", function()
+	vim.pack.update(nil, { force = true })
+end, { desc = "[P]ack [U]pdate" })
