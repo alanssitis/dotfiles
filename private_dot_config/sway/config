@@ -14,8 +14,7 @@ set $menu wofi --show drun
 # Workspaces
 set $wsp_browser number 1
 set $wsp_email number 2
-set $wsp_msg_work number 3
-set $wsp_msg_pers number 4
+set $wsp_msg number 3
 
 ### Output configuration
 #
@@ -26,6 +25,7 @@ output DP-1 background ~/Pictures/Wallpapers/sf-streets.jpg fill
 exec swayidle -w \
          timeout 300 swaylock \
          timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+	 timeout 900 'systemctl suspend' \
          before-sleep swaylock
 
 ### Input configuration
@@ -192,6 +192,10 @@ bindsym --locked XF86AudioMicMute exec wpctl set-mute @DEFAULT_AUDIO_SOURCE@ tog
 # Special keys to adjust brightness via brightnessctl
 bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
 bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
+# Special keys to control audio playing via playerctl
+bindsym --locked XF86AudioPlay exec playerctl play-pause
+bindsym --locked XF86AudioNext exec playerctl next
+bindsym --locked XF86AudioPrev exec playerctl previous
 # Special key to take a screenshot with grim
 bindsym Print exec grim
 
@@ -200,7 +204,7 @@ include catppuccin-macchiato
 # Color scheme:
 #
 # target                 title     bg    text   indicator  border
-client.focused           $lavender $base $text  $rosewater $lavender
+client.focused           $lavender $base $text  $rosewater $sapphire
 client.focused_inactive  $overlay0 $base $text  $rosewater $overlay0
 client.unfocused         $overlay0 $base $text  $rosewater $overlay0
 client.urgent            $peach    $base $peach $overlay0  $peach
@@ -217,7 +221,7 @@ bar {
 #
 # Additional looks:
 # 
-default_border pixel 2
+default_border pixel 4
 gaps inner 4
 
 #
@@ -225,11 +229,11 @@ gaps inner 4
 #
 assign [app_id="zen"] workspace $wsp_browser
 assign [app_id="org.mozilla.Thunderbird"] workspace $wsp_email
-assign [app_id="Element"] workspace $wsp_msg_work
-assign [app_id="Slack"] workspace $wsp_msg_work
-assign [app_id="signal"] workspace $wsp_msg_pers
-assign [app_id="chrome-hnpfjngllnobngcgfapefoaidbinmjnm-Default"] workspace $wsp_msg_pers
-assign [class="discord"] workspace $wsp_msg_pers
+assign [app_id="Element"] workspace $wsp_msg
+assign [app_id="Slack"] workspace $wsp_msg
+assign [app_id="signal"] workspace $wsp_msg
+assign [app_id="chrome-hnpfjngllnobngcgfapefoaidbinmjnm-Default"] workspace $wsp_msg
+assign [class="discord"] workspace $wsp_msg
 
 #
 # Startup applications
@@ -238,9 +242,9 @@ exec protonmail-bridge --no-window
 exec zen-browser
 exec thunderbird
 exec element-desktop
-exec slack
-exec signal-desktop
-exec gtk-launch whatsapp
-exec discord
+# exec slack
+exec signal-desktop --password-store="gnome-libsecret"
+# exec gtk-launch whatsapp
+# exec discord
 
 include /etc/sway/config.d/*
