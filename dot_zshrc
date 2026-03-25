@@ -57,7 +57,7 @@ export EDITOR=nvim
 ##########################
 
 # local bin
-export PATH="$PATH:$HOME/.local/bin:$HOME/.cargo/bin:$HOME/.local/share/go/bin"
+export PATH="$PATH:$HOME/.local/bin:$HOME/.cargo/bin"
 
 # nvm
 if [ -z "${NVM_DIR:-}" ]; then
@@ -68,9 +68,6 @@ export NVM_DIR
 [ ! -e "$NVM_DIR" ] && mkdir -vp "$NVM_DIR"
 [ ! -e "$NVM_DIR/nvm.sh" ] && ln -vs /usr/share/nvm/nvm.sh "$NVM_DIR/nvm.sh"
 [ ! -e "$NVM_DIR/nvm-exec" ] && ln -vs /usr/share/nvm/nvm-exec "$NVM_DIR/nvm-exec"
-
-# maude
-export MAUDE_LIB="/usr/share/maude/"
 
 #####################
 ### terminal init ###

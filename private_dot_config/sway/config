@@ -244,7 +244,7 @@ gaps inner 4
 #
 assign [app_id="zen"] workspace $wsp_browser
 assign [app_id="org.mozilla.Thunderbird"] workspace $wsp_email
-assign [app_id="Element"] workspace $wsp_msg_work
+assign [app_id="fluffychat"] workspace $wsp_msg_work
 assign [app_id="Slack"] workspace $wsp_msg_work
 assign [app_id="signal"] workspace $wsp_msg_pers
 assign [app_id="chrome-hnpfjngllnobngcgfapefoaidbinmjnm-Default"] workspace $wsp_msg_pers
@@ -256,10 +256,12 @@ assign [class="discord"] workspace $wsp_msg_pers
 exec protonmail-bridge --no-window
 exec zen-browser
 exec thunderbird
-exec element-desktop
+exec fluffychat
 exec slack
 exec signal-desktop
 exec gtk-launch whatsapp
 exec discord
+
+exec check-secure-boot
 
 include /etc/sway/config.d/*

@@ -165,12 +165,20 @@ vim.pack.add({
 	"https://github.com/neovim/nvim-lspconfig",
 })
 
-require("fidget").setup({})
+require("fidget").setup({
+	notification = {
+		override_vim_notify = true,
+	},
+})
 
 require("mason").setup({})
 require("mason-lspconfig").setup({
 	automatic_enable = true,
 })
+
+-- keymaps
+vim.keymap.set("n", "<leader>lh", function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled()) end,
+	{ desc = "toggle [l]sp inlay [h]ints" })
 
 -- FORMAT --
 vim.pack.add({ "https://github.com/stevearc/conform.nvim" })
@@ -255,7 +263,29 @@ require("which-key").setup({})
 require("ibl").setup({})
 require("gitsigns").setup({})
 
--- PACK AUTOMATIC UPDATE KEYBIND --
-vim.keymap.set("n", "<leader>pu", function()
-	vim.pack.update(nil, { force = true })
-end, { desc = "[P]ack [U]pdate" })
+-- AUTOMATICALLY UPDATE EVERY DAY ON FIRST OPEN --
+local function update_on_first_daily_open()
+	local data_dir = vim.fn.stdpath("data")
+	local timestamp_file = data_dir .. "/last-update-date.txt"
+
+	local current_date = os.date("%Y-%m-%d")
+	local last_run_date = ""
+	local f = io.open(timestamp_file, "r")
+	if f then
+		last_run_date = f:read("*l") or ""
+		f:close()
+	end
+
+	if current_date ~= last_run_date then
+		vim.pack.update(nil, { force = true })
+
+		local fw = io.open(timestamp_file, "w")
+		if fw then
+			fw:write(current_date)
+			fw:close()
+		else
+			vim.notify("Warning: Could not write to daily timestamp file.", vim.log.levels.WARN)
+		end
+	end
+end
+update_on_first_daily_open()

@@ -1,0 +1,23 @@
+Host github.com
+	User git
+	IdentityFile ~/.ssh/id_ed25519_sk_github_authentication
+	IdentitiesOnly yes
+
+Host tangled.org
+	User git
+	IdentityFile ~/.ssh/id_ed25519_sk_github_authentication
+	IdentitiesOnly yes
+
+Host gitlab.com
+	User git
+	IdentityFile ~/.ssh/id_ed25519_sk_gitlab_authentication
+	IdentitiesOnly yes
+
+Host aleph
+	Hostname srv-25-0001.a.cispa.de
+	User achungma
+	ProxyJump cispa-jump
+
+Host cispa-jump
+	User c01alch
+	HostName ssh.cispa.de

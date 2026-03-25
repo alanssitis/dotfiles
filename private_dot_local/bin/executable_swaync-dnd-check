@@ -1,0 +1,6 @@
+#!/bin/bash
+
+while true; do
+	jq -n -c --arg d $(swaync-client -D) '{class: $d, alt: $d}'
+	sleep 0.1
+done
