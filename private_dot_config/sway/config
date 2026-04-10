@@ -23,9 +23,8 @@ output DP-1 background ~/Pictures/Wallpapers/sf-streets.jpg fill
 ### Idle configuration
 #
 exec swayidle -w \
-         timeout 300 swaylock \
          timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
-	 timeout 900 'systemctl suspend' \
+	 timeout 720 'systemctl suspend' \
          before-sleep swaylock
 
 ### Input configuration
@@ -229,7 +228,7 @@ gaps inner 4
 #
 assign [app_id="zen"] workspace $wsp_browser
 assign [app_id="org.mozilla.Thunderbird"] workspace $wsp_email
-assign [app_id="Element"] workspace $wsp_msg
+assign [app_id="fluffychat"] workspace $wsp_msg
 assign [app_id="Slack"] workspace $wsp_msg
 assign [app_id="signal"] workspace $wsp_msg
 assign [app_id="chrome-hnpfjngllnobngcgfapefoaidbinmjnm-Default"] workspace $wsp_msg
@@ -241,7 +240,7 @@ assign [class="discord"] workspace $wsp_msg
 exec protonmail-bridge --no-window
 exec zen-browser
 exec thunderbird
-exec element-desktop
+exec fluffychat
 # exec slack
 exec signal-desktop --password-store="gnome-libsecret"
 # exec gtk-launch whatsapp
