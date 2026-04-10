@@ -256,7 +256,6 @@ vim.pack.add({
 	"https://github.com/folke/which-key.nvim",
 	{ src = "https://github.com/lukas-reineke/indent-blankline.nvim", name = "ibl" },
 	"https://github.com/lewis6991/gitsigns.nvim",
-	"https://github.com/tamarin-prover/editors",
 })
 require("todo-comments").setup({})
 require("which-key").setup({})

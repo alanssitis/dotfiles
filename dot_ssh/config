@@ -17,6 +17,7 @@ Host aleph
 	Hostname srv-25-0001.a.cispa.de
 	User achungma
 	ProxyJump cispa-jump
+	LocalForward 8888 localhost:8888
 
 Host cispa-jump
 	User c01alch

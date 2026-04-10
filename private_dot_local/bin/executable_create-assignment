@@ -1,0 +1,65 @@
+#!/bin/bash
+
+set -e
+set -o pipefail
+
+ASSIGNMENT_DIR=./
+
+SEMESTER="Summer 2026"
+CLASSES=(
+	'Algorithms and Data Structures'
+	'Algorithms for Cryptanalysis'
+	'Complexity Theory'
+	'Cryptography'
+	'Distributed Graph Algorithms'
+	'Ethics for Nerds'
+	'Privacy-Enhancing Technologies'
+)
+
+declare -A PRESET_TITLE=(
+	['Distributed Graph Algorithms']='Exercise '
+)
+
+declare -A PRESET_HELPERS=(
+
+['Distributed Graph Algorithms']=$(cat <<EOF
+#set heading(numbering: "1  ")
+EOF
+)
+
+)
+
+PLUGIN_VERSION="1.0.0"
+
+CLASS=$(gum choose "${CLASSES[@]}")
+HANDOUT_PATH=$(find ~/Downloads $(pwd) -type f | fzf --layout=reverse --delimiter / --with-nth -2..)
+TITLE=$(gum input --prompt="title: " --value="${PRESET_TITLE["${CLASS}"]}")
+DUE_DATE=$(gum input --prompt="due date: " --value=$(date -I))
+
+DUE_YEAR=${DUE_DATE:0:4}
+DUE_MONTH=${DUE_DATE:5:2}
+DUE_DAY=${DUE_DATE:8:2}
+
+cat <<EOF > ${ASSIGNMENT_DIR}/submission.typ
+#import "@local/assignment:${PLUGIN_VERSION}": assignment
+
+#show: assignment.with(
+  course: "${CLASS}",
+  semester: "${SEMESTER}",
+  assignment-title: "${TITLE}",
+  due-date: datetime(year: ${DUE_YEAR}, month: ${DUE_MONTH}, day: ${DUE_DAY}),
+  authors: (
+    (
+      name: "Alan A. Chung Ma",
+      matriculation-number: "7083348",
+      email: "alch00009@stud.uni-saarland.de",
+    ),
+  )
+)
+
+${PRESET_HELPERS["${CLASS}"]}
+
+// Start here!
+EOF
+
+mv ${HANDOUT_PATH} ${ASSIGNMENT_DIR}/handout.pdf

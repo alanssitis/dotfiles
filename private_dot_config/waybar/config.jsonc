@@ -27,10 +27,10 @@
     "warp-on-scroll": false,
     "format": "{name}| {icon}",
     "format-icons": {
-      "1": "",
-      "2": "󰇮",
-      "3": "󰻞",
-      "4": "󰭹",
+      "1": "󰖟",
+      "2": "",
+      "3": "󰍥",
+      "4": "󰻞",
       "default": ""
     },
     "persistent-workspaces": {
