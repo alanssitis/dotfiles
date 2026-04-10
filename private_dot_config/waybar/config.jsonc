@@ -12,6 +12,7 @@
     "pulseaudio",
     "network",
     "battery",
+    "custom/sleep",
     "custom/dnd",
     "custom/notifications"
   ],
@@ -104,6 +105,16 @@
     "format-charging": "{capacity}% 󰂄",
     "format-plugged": "{capacity}% 󰚥",
     "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
+  },
+  "custom/sleep": {
+    "exec": "/home/alan/.local/bin/swayidle-check",
+    "return-type": "json",
+    "format": "{icon}",
+    "format-icons": {
+      "enabled": "󰒲",
+      "disabled": "󰒳"
+    },
+    "on-click": "/home/alan/.local/bin/swayidle-toggle"
   },
   "custom/dnd": {
     "exec": "/home/alan/.local/bin/swaync-dnd-check",

@@ -1,0 +1,31 @@
+#!/bin/zsh
+
+set -e
+set -o pipefail
+
+NAME_PATH=$(find ${HOME}/Documents/uds-classes -mindepth 1 -maxdepth 1 -not -path '*/.*' -type d | fzf --layout=reverse --delimiter / --with-nth -1)
+
+NAME=$(echo ${NAME_PATH} | sed 's|.*/||')
+WORK_PATH=$(find ${NAME_PATH} -mindepth 2 -maxdepth 2 -not -path '*/.*' | grep "/${NAME}$" || true)
+if [ -z "${WORK_PATH}" ]; then
+	SEMESTER=$(find ${NAME_PATH} -mindepth 1 -maxdepth 1 -not -path '*/.*' | fzf --layout=reverse --delimiter / --with-nth -1)
+	WORK_PATH=${SEMESTER}/${NAME}
+	mkdir ${WORK_PATH}
+fi
+
+# NOTE: currently only managing one session at a time. Could potentially
+# handle multiple at the same time with suffixes, and also add flag for temp
+# sessions.
+
+SESSION_NAME="work-${NAME}"
+
+if [ $(zellij list-sessions | grep ${SESSION_NAME} | wc -l) -eq 0 ]; then
+	cd ${WORK_PATH} && zellij --session ${SESSION_NAME} $@
+else
+	zellij attach ${SESSION_NAME} $@
+fi
+
+if zellij list-sessions | grep ${SESSION_NAME} -q; then
+	gum confirm "Save session: ${SESSION_NAME}?" \
+		|| zellij delete-session ${SESSION_NAME}
+fi

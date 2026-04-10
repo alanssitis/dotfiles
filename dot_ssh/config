@@ -1,6 +1,29 @@
+Host pets-env
+	Hostname bergheim.outreach.d.cispa.de
+	User u7083348
+	Port 7674
+	ProxyJump outreach-cispa
+	IdentityFile ~/.ssh/id_ed25519_sk_github_authentication
+	IdentitiesOnly yes
+
+Host outreach-cispa
+	User jump
+	IdentityFile ~/.ssh/id_ed25519_sk_github_authentication
+	HostName login.outreach.d.cispa.de
+
+Host lab-pets.privacy-preserving.systems
+	User git
+	IdentityFile ~/.ssh/id_ed25519_sk_github_authentication
+	IdentitiesOnly yes
+
 Host github.com
 	User git
 	IdentityFile ~/.ssh/id_ed25519_sk_github_authentication
+	IdentitiesOnly yes
+
+Host codeberg.org
+	User git
+	IdentityFile ~/.ssh/id_ed25519_sk_codeberg_authentication
 	IdentitiesOnly yes
 
 Host tangled.org
@@ -9,6 +32,11 @@ Host tangled.org
 	IdentitiesOnly yes
 
 Host gitlab.com
+	User git
+	IdentityFile ~/.ssh/id_ed25519_sk_gitlab_authentication
+	IdentitiesOnly yes
+
+Host projects.cispa.saarland
 	User git
 	IdentityFile ~/.ssh/id_ed25519_sk_gitlab_authentication
 	IdentitiesOnly yes

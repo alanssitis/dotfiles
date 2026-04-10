@@ -59,6 +59,7 @@ button:hover {
 #pulseaudio,
 #network,
 #battery,
+#custom-sleep,
 #custom-dnd,
 #custom-notifications,
 #mpd {
@@ -165,6 +166,16 @@ label:focus {
   background-color: transparent;
 }
 
+#custom-sleep {
+  background-color: #448ee4;
+  color: #eff1f5;
+}
+
+#custom-sleep.disabled {
+  background-color: #f1c40f;
+  color: #000000;
+}
+
 #custom-dnd {
   background-color: #dd7878;
   color: #eff1f5;
@@ -173,5 +184,7 @@ label:focus {
 #custom-dnd.true {
   background-color: #8839ef;
 }
+
+/* vim: set expandtab sw=2 ts=2 : */
 
 /* vim: set expandtab sw=2 ts=2 : */

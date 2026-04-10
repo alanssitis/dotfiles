@@ -4,8 +4,19 @@
 default-command = "log"
 
 [user]
-name = "Alan Chung Ma"
+name = "Alan Alexander Chung Ma"
 email = "alan@chung-ma.com"
+
+[aliases]
+rebase-all = ["rebase", "-s", "(::trunk())+ & mutable()", "-d", "trunk()"]
 
 [git]
 colocate = false
+
+[snapshot]
+auto-update-stale = true
+
+[[--scope]]
+--when.repositories = ["~/Projects/cispa"]
+[--scope.user]
+email = "alan.chung-ma@cispa.de"
