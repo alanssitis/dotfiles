@@ -1,0 +1,7 @@
+#!/bin/bash
+
+STATUS=$(sbctl status | grep "Secure Boot" | grep -o "Enabled")
+
+if [ "$STATUS" != "Enabled" ]; then
+    notify-send -u critical "Security Warning" "Secure Boot is DISABLED!" --icon=dialog-warning
+fi

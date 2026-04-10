@@ -165,12 +165,20 @@ vim.pack.add({
 	"https://github.com/neovim/nvim-lspconfig",
 })
 
-require("fidget").setup({})
+require("fidget").setup({
+	notification = {
+		override_vim_notify = true,
+	},
+})
 
 require("mason").setup({})
 require("mason-lspconfig").setup({
 	automatic_enable = true,
 })
+
+-- keymaps
+vim.keymap.set("n", "<leader>lh", function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled()) end,
+	{ desc = "toggle [l]sp inlay [h]ints" })
 
 -- FORMAT --
 vim.pack.add({ "https://github.com/stevearc/conform.nvim" })
@@ -248,7 +256,6 @@ vim.pack.add({
 	"https://github.com/folke/which-key.nvim",
 	{ src = "https://github.com/lukas-reineke/indent-blankline.nvim", name = "ibl" },
 	"https://github.com/lewis6991/gitsigns.nvim",
-	"https://github.com/tamarin-prover/editors",
 })
 require("todo-comments").setup({})
 require("which-key").setup({})
