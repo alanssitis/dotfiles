@@ -1,0 +1,1152 @@
+diff --git a/dot_bash_aliases b/dot_bash_aliases
+new file mode 100644
+index 0000000000..152c1fa467
+--- /dev/null
++++ b/dot_bash_aliases
+@@ -0,0 +1,25 @@
++# color aliases
++if [ -x /usr/bin/dircolors ]; then
++	test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
++
++	alias ls='ls --color=auto'
++	alias dir='dir --color=auto'
++	alias vdir='vdir --color=auto'
++
++	alias grep='grep --color=auto'
++	alias fgrep='fgrep --color=auto'
++	alias egrep='egrep --color=auto'
++fi
++
++# common aliases
++alias ll='ls -alFh'
++alias la='ls -A'
++alias l='ls -CF'
++
++# editor
++alias vi=nvim
++alias vim=nvim
++export EDITOR=nvim
++
++# go to project root
++alias cdr='cd $(jj root)'
+diff --git a/dot_bash_exports b/dot_bash_exports
+new file mode 100644
+index 0000000000..61f790fa85
+--- /dev/null
++++ b/dot_bash_exports
+@@ -0,0 +1,1 @@
++export PATH=$HOME/.local/bin:$PATH
+diff --git a/dot_bash_language_setup b/dot_bash_language_setup
+new file mode 100644
+index 0000000000..9bba530a05
+--- /dev/null
++++ b/dot_bash_language_setup
+@@ -0,0 +1,5 @@
++#!/bin/bash
++
++. "$HOME/.cargo/env"
++
++[[ -s "/home/achungma/.gvm/scripts/gvm" ]] && source "/home/achungma/.gvm/scripts/gvm"
+diff --git a/dot_bash_os_specific b/dot_bash_os_specific
+new file mode 100644
+index 0000000000..02eb1759a0
+--- /dev/null
++++ b/dot_bash_os_specific
+@@ -0,0 +1,3 @@
++if [ -z $LANG ] ; then
++    LANG=en_US.UTF-8
++fi
+diff --git a/dot_bashrc b/dot_bashrc
+new file mode 100644
+index 0000000000..9023a93398
+--- /dev/null
++++ b/dot_bashrc
+@@ -0,0 +1,52 @@
++set -o vi
++
++case $- in
++    *i*) ;;
++      *) return;;
++esac
++
++HISTCONTROL=ignoreboth
++shopt -s histappend
++HISTSIZE=1000
++HISTFILESIZE=2000
++
++shopt -s checkwinsize
++shopt -s globstar
++
++[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
++
++case "$TERM" in
++    xterm-color|*-256color);;
++esac
++
++# enable programmable completion features
++if ! shopt -oq posix; then
++  if [ -f /usr/share/bash-completion/bash_completion ]; then
++    . /usr/share/bash-completion/bash_completion
++  elif [ -f /etc/bash_completion ]; then
++    . /etc/bash_completion
++  fi
++fi
++
++if [ -f ~/.bash_os_specific ]; then
++    . ~/.bash_os_specific
++fi
++
++if [ -f ~/.bash_exports ]; then
++    . ~/.bash_exports
++fi
++
++if [ -f ~/.bash_aliases ]; then
++    . ~/.bash_aliases
++fi
++
++if [ -f ~/.bash_language_setup ]; then
++    . ~/.bash_language_setup
++fi
++
++if [ -f ~/.bash_local_completions ]; then
++    . ~/.bash_local_completions
++fi
++
++eval "$(starship init bash)"
++eval "$(zoxide init bash --cmd cd)"
+diff --git a/dot_config/jj/config.toml b/dot_config/jj/config.toml
+new file mode 100644
+index 0000000000..25de637224
+--- /dev/null
++++ b/dot_config/jj/config.toml
+@@ -0,0 +1,11 @@
++"$schema" = "https://jj-vcs.github.io/jj/latest/config-schema.json"
++
++[ui]
++default-command = "log"
++
++[user]
++name = "Alan Chung Ma"
++email = "alan@chung-ma.com"
++
++[git]
++colocate = false
+diff --git a/dot_config/nvim/init.lua b/dot_config/nvim/init.lua
+new file mode 100644
+index 0000000000..66d631ff8e
+--- /dev/null
++++ b/dot_config/nvim/init.lua
+@@ -0,0 +1,283 @@
++-- Alan's config
++
++----------
++-- SETS --
++----------
++
++-- set <space> as the leader key
++vim.g.mapleader = " "
++vim.g.maplocalleader = " "
++
++-- set only if nerd font is used
++vim.g.have_nerd_font = true
++
++-- show line and relative numbers
++vim.opt.number = true
++vim.opt.relativenumber = true
++
++-- shown in
++-- vim.opt.showmode = false
++
++-- separate concerns between nvim and system
++vim.opt.clipboard = "unnamedplus"
++
++-- enable break indent
++vim.opt.breakindent = true
++
++-- save undo history
++vim.opt.undofile = true
++
++-- case-insensitive searching UNLESS \C or one or more capital letters in the search term
++vim.opt.ignorecase = true
++vim.opt.smartcase = true
++
++-- enable sign column
++vim.opt.signcolumn = "yes:1"
++
++vim.opt.updatetime = 250
++vim.opt.timeoutlen = 500
++
++-- split behavior
++vim.opt.splitright = true
++vim.opt.splitbelow = true
++
++-- whitespace characters
++vim.opt.list = true
++vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
++
++-- enable showing substitutions
++vim.opt.inccommand = "split"
++
++-- show line cursor is on
++vim.opt.cursorline = true
++
++-- line to keep above and below cursor
++vim.opt.scrolloff = 5
++
++-- highlight on search
++vim.opt.hlsearch = true
++
++vim.opt.colorcolumn = "79"
++
++--------------
++-- KEYREMAP --
++--------------
++
++-- clear highlighting on search in normal mode
++vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
++
++-- diagnostic keymaps
++vim.keymap.set("n", "[d", vim.diagnostic.get_prev, { desc = "Go to previous [D]iagnostic message" })
++vim.keymap.set("n", "]d", vim.diagnostic.get_next, { desc = "Go to next [D]iagnostic message" })
++vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show diagnostic [E]rror messages" })
++vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
++
++-- simpler split navigation
++vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })
++vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right window" })
++vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
++vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
++
++-- exit terminal mode
++vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
++
++-------------
++-- AUTOCMD --
++-------------
++
++vim.api.nvim_create_autocmd("TextYankPost", {
++	desc = "Highlight when yanking (copying) text",
++	group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
++	pattern = "*",
++	callback = function()
++		vim.highlight.on_yank()
++	end,
++})
++
++-------------
++-- PLUGINS --
++-------------
++
++local hooks = function(ev)
++	local name, kind = ev.data.spec.name, ev.data.kind
++	if name == "treesitter" and (kind == "install" or kind == "update") then
++		-- Append `:wait()` if you need synchronous execution
++		vim.cmd("TSUpdate")
++	end
++	if name == "telescope-fzf-native.nvim" and (kind == "install" or kind == "update") then
++		-- Append `:wait()` if you need synchronous execution
++		vim.system({ "make" }, { cwd = ev.data.path })
++	end
++end
++vim.api.nvim_create_autocmd("PackChanged", { callback = hooks })
++
++-- COLORSCHEME --
++vim.pack.add({ {
++	src = "https://github.com/catppuccin/nvim",
++	name = "catppuccin",
++} })
++require("catppuccin").setup({
++	flavour = "macchiato",
++	transparent_background = true,
++	float = {
++		transparent = false,
++		solid = false,
++	},
++})
++vim.cmd.colorscheme("catppuccin-macchiato")
++
++-- MINI --
++vim.pack.add({ "https://github.com/nvim-mini/mini.nvim" })
++-- text editing
++require("mini.ai").setup({})
++require("mini.completion").setup({})
++require("mini.operators").setup({})
++require("mini.pairs").setup({})
++require("mini.snippets").setup({})
++require("mini.surround").setup({})
++-- general workflow
++require("mini.bracketed").setup({})
++-- appearance
++require("mini.icons").setup({})
++require("mini.statusline").setup({
++	use_icons = vim.g.have_nerd_font,
++})
++
++-- TREESITTER --
++vim.pack.add({
++	"https://github.com/nvim-treesitter/nvim-treesitter",
++	"https://github.com/nvim-treesitter/nvim-treesitter-context",
++})
++require("nvim-treesitter").setup({
++	ensure_installed = {
++		"lua",
++		"vim",
++		"vimdoc",
++	},
++})
++vim.keymap.set("n", "<leader>tc", "<CMD>:TSContext toggle<CR>", { desc = "[T]oggle [C]ontext" })
++
++-- LSP --
++vim.pack.add({
++	"https://github.com/mason-org/mason.nvim",
++	"https://github.com/mason-org/mason-lspconfig.nvim",
++	"https://github.com/j-hui/fidget.nvim",
++	"https://github.com/neovim/nvim-lspconfig",
++})
++
++require("fidget").setup({})
++
++require("mason").setup({})
++require("mason-lspconfig").setup({
++	automatic_enable = true,
++})
++
++-- FORMAT --
++vim.pack.add({ "https://github.com/stevearc/conform.nvim" })
++local conform = require("conform")
++conform.setup({
++	notify_on_error = true,
++	format_on_save = function(bufnr)
++		local disable_filetypes = { c = true, cpp = true }
++		return {
++			timeout_ms = 500,
++			lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
++		}
++	end,
++})
++vim.keymap.set("n", "<leader>f", function()
++	conform.format({ async = true, lsp_fallback = true })
++end, { desc = "[F]ormat buffer" })
++
++-- TELESCOPE --
++vim.pack.add({
++	"https://github.com/nvim-lua/plenary.nvim",
++	"https://github.com/kkharji/sqlite.lua",
++	"https://github.com/nvim-telescope/telescope-fzf-native.nvim",
++	"https://github.com/nvim-telescope/telescope-smart-history.nvim",
++	"https://github.com/nvim-telescope/telescope-ui-select.nvim",
++	"https://github.com/nvim-telescope/telescope.nvim",
++})
++
++-- telescope extensions
++require("telescope").load_extension("fzf")
++require("telescope").load_extension("smart_history")
++require("telescope").load_extension("ui-select")
++
++-- keymaps
++local builtin = require("telescope.builtin")
++vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "[S]earch [H]elp" })
++vim.keymap.set("n", "<leader>sk", builtin.keymaps, { desc = "[S]earch [K]eymaps" })
++vim.keymap.set("n", "<leader>sf", builtin.find_files, { desc = "[S]earch [F]iles" })
++vim.keymap.set("n", "<leader>sp", builtin.git_files, { desc = "[S]earch (git) [P]roject files" })
++vim.keymap.set("n", "<leader>ss", builtin.builtin, { desc = "[S]earch [S]elect Telescope" })
++vim.keymap.set("n", "<leader>sw", builtin.grep_string, { desc = "[S]earch current [W]ord" })
++vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "[S]earch by [G]rep" })
++vim.keymap.set("n", "<leader>sd", builtin.diagnostics, { desc = "[S]earch [D]iagnostics" })
++vim.keymap.set("n", "<leader>sr", builtin.resume, { desc = "[S]earch [R]esume" })
++vim.keymap.set("n", "<leader>s.", builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
++vim.keymap.set("n", "<leader><leader>", builtin.buffers, { desc = "[ ] Find existing buffers" })
++vim.keymap.set("n", "<leader>/", function()
++	builtin.current_buffer_fuzzy_find({
++		prompt_title = "Search in Current Buffer",
++	})
++end, { desc = "[/] Fuzzily search in current buffer" })
++vim.keymap.set("n", "<leader>s/", function()
++	builtin.live_grep({
++		grep_open_files = true,
++		prompt_title = "Live Grep in Open Files",
++	})
++end, { desc = "[S]earch [/] in Open Files" })
++
++-- OIL --
++vim.pack.add({ "https://github.com/stevearc/oil.nvim" })
++require("oil").setup({
++	keymaps = {
++		["<C-h>"] = false,
++		["<C-l>"] = false,
++		["<C-k>"] = false,
++		["<C-j>"] = false,
++	},
++})
++vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "[-] Open parent directory" })
++
++-- OTHER PLUGINS --
++vim.pack.add({
++	"https://github.com/nvim-tree/nvim-web-devicons",
++	"https://github.com/folke/todo-comments.nvim",
++	"https://github.com/folke/which-key.nvim",
++	{ src = "https://github.com/lukas-reineke/indent-blankline.nvim", name = "ibl" },
++	"https://github.com/lewis6991/gitsigns.nvim",
++	"https://github.com/tamarin-prover/editors",
++})
++require("todo-comments").setup({})
++require("which-key").setup({})
++require("ibl").setup({})
++require("gitsigns").setup({})
++
++-- AUTOMATICALLY UPDATE EVERY DAY ON FIRST OPEN --
++local function update_on_first_daily_open()
++	local data_dir = vim.fn.stdpath("data")
++	local timestamp_file = data_dir .. "/last-update-date.txt"
++
++	local current_date = os.date("%Y-%m-%d")
++	local last_run_date = ""
++	local f = io.open(timestamp_file, "r")
++	if f then
++		last_run_date = f:read("*l") or ""
++		f:close()
++	end
++
++	if current_date ~= last_run_date then
++		vim.pack.update(nil, { force = true })
++
++		local fw = io.open(timestamp_file, "w")
++		if fw then
++			fw:write(current_date)
++			fw:close()
++		else
++			vim.notify("Warning: Could not write to daily timestamp file.", vim.log.levels.WARN)
++		end
++	end
++end
++update_on_first_daily_open()
+diff --git a/dot_config/nvim/literal_dot_editorconfig b/dot_config/nvim/literal_dot_editorconfig
+new file mode 100644
+index 0000000000..56e5e8d689
+--- /dev/null
++++ b/dot_config/nvim/literal_dot_editorconfig
+@@ -0,0 +1,9 @@
++root = true
++
++[*]
++charset = utf-8
++end_of_line = LF
++
++[*.lua]
++indent_style = tab
++tab_width = 2
+diff --git a/dot_config/nvim/nvim-pack-lock.json b/dot_config/nvim/nvim-pack-lock.json
+new file mode 100644
+index 0000000000..86124a9fd3
+--- /dev/null
++++ b/dot_config/nvim/nvim-pack-lock.json
+@@ -0,0 +1,108 @@
++{
++  "plugins": {
++    "catppuccin": {
++      "rev": "426dbebe06b5c69fd846ceb17b42e12f890aedf1",
++      "src": "https://github.com/catppuccin/nvim"
++    },
++    "conform.nvim": {
++      "rev": "086a40dc7ed8242c03be9f47fbcee68699cc2395",
++      "src": "https://github.com/stevearc/conform.nvim"
++    },
++    "editors": {
++      "rev": "758966ca920c17fc227b7b05a6225e8c5914b7ca",
++      "src": "https://github.com/tamarin-prover/editors"
++    },
++    "fidget.nvim": {
++      "rev": "889e2e96edef4e144965571d46f7a77bcc4d0ddf",
++      "src": "https://github.com/j-hui/fidget.nvim"
++    },
++    "gitsigns.nvim": {
++      "rev": "0d797daee85366bc242580e352a4f62d67557b84",
++      "src": "https://github.com/lewis6991/gitsigns.nvim"
++    },
++    "ibl": {
++      "rev": "d28a3f70721c79e3c5f6693057ae929f3d9c0a03",
++      "src": "https://github.com/lukas-reineke/indent-blankline.nvim"
++    },
++    "indent-blankline.nvim": {
++      "rev": "d28a3f70721c79e3c5f6693057ae929f3d9c0a03",
++      "src": "https://github.com/lukas-reineke/indent-blankline.nvim"
++    },
++    "mason-lspconfig.nvim": {
++      "rev": "25f609e7fca78af7cede4f9fa3af8a94b1c4950b",
++      "src": "https://github.com/mason-org/mason-lspconfig.nvim"
++    },
++    "mason.nvim": {
++      "rev": "b03fb0f20bc1d43daf558cda981a2be22e73ac42",
++      "src": "https://github.com/mason-org/mason.nvim"
++    },
++    "mini.ai": {
++      "rev": "43eb2074843950a3a25aae56a5f41362ec043bfa",
++      "src": "https://github.com/nvim-mini/mini.ai"
++    },
++    "mini.icons": {
++      "rev": "7fdae2443a0e2910015ca39ad74b50524ee682d3",
++      "src": "https://github.com/echasnovski/mini.icons"
++    },
++    "mini.nvim": {
++      "rev": "402ee6c6ec8ea44b22330446c8fb4e615fd3953e",
++      "src": "https://github.com/nvim-mini/mini.nvim"
++    },
++    "nvim": {
++      "rev": "426dbebe06b5c69fd846ceb17b42e12f890aedf1",
++      "src": "https://github.com/catppuccin/nvim"
++    },
++    "nvim-lspconfig": {
++      "rev": "bedca8b426b2fee0ccac596d167d71bbe971253f",
++      "src": "https://github.com/neovim/nvim-lspconfig"
++    },
++    "nvim-treesitter": {
++      "rev": "4916d6592ede8c07973490d9322f187e07dfefac",
++      "src": "https://github.com/nvim-treesitter/nvim-treesitter"
++    },
++    "nvim-treesitter-context": {
++      "rev": "b0c45cefe2c8f7b55fc46f34e563bc428ef99636",
++      "src": "https://github.com/nvim-treesitter/nvim-treesitter-context"
++    },
++    "nvim-web-devicons": {
++      "rev": "95b7a002d5dba1a42eb58f5fac5c565a485eefd0",
++      "src": "https://github.com/nvim-tree/nvim-web-devicons"
++    },
++    "oil.nvim": {
++      "rev": "0fcc83805ad11cf714a949c98c605ed717e0b83e",
++      "src": "https://github.com/stevearc/oil.nvim"
++    },
++    "plenary.nvim": {
++      "rev": "b9fd5226c2f76c951fc8ed5923d85e4de065e509",
++      "src": "https://github.com/nvim-lua/plenary.nvim"
++    },
++    "sqlite.lua": {
++      "rev": "50092d60feb242602d7578398c6eb53b4a8ffe7b",
++      "src": "https://github.com/kkharji/sqlite.lua"
++    },
++    "telescope-fzf-native.nvim": {
++      "rev": "6fea601bd2b694c6f2ae08a6c6fab14930c60e2c",
++      "src": "https://github.com/nvim-telescope/telescope-fzf-native.nvim"
++    },
++    "telescope-smart-history.nvim": {
++      "rev": "81a4cceaa54d65d5f7c7c26178ee63b634d3e26d",
++      "src": "https://github.com/nvim-telescope/telescope-smart-history.nvim"
++    },
++    "telescope-ui-select.nvim": {
++      "rev": "6e51d7da30bd139a6950adf2a47fda6df9fa06d2",
++      "src": "https://github.com/nvim-telescope/telescope-ui-select.nvim"
++    },
++    "telescope.nvim": {
++      "rev": "7ef4d6dccb78ee71e552bbd866176762ad328afa",
++      "src": "https://github.com/nvim-telescope/telescope.nvim"
++    },
++    "todo-comments.nvim": {
++      "rev": "31e3c38ce9b29781e4422fc0322eb0a21f4e8668",
++      "src": "https://github.com/folke/todo-comments.nvim"
++    },
++    "which-key.nvim": {
++      "rev": "3aab2147e74890957785941f0c1ad87d0a44c15a",
++      "src": "https://github.com/folke/which-key.nvim"
++    }
++  }
++}
+diff --git a/dot_config/zellij/config.kdl b/dot_config/zellij/config.kdl
+new file mode 100644
+index 0000000000..9971973e0a
+--- /dev/null
++++ b/dot_config/zellij/config.kdl
+@@ -0,0 +1,456 @@
++keybinds clear-defaults=true {
++    normal {
++        bind "Ctrl y" { SwitchToMode "move"; }
++    }
++    locked {
++        bind "Ctrl g" { SwitchToMode "normal"; }
++    }
++    pane {
++        bind "left" { MoveFocus "left"; }
++        bind "down" { MoveFocus "down"; }
++        bind "up" { MoveFocus "up"; }
++        bind "right" { MoveFocus "right"; }
++        bind "c" { SwitchToMode "renamepane"; PaneNameInput 0; }
++        bind "d" { NewPane "down"; SwitchToMode "normal"; }
++        bind "e" { TogglePaneEmbedOrFloating; SwitchToMode "normal"; }
++        bind "f" { ToggleFocusFullscreen; SwitchToMode "normal"; }
++        bind "h" { MoveFocus "left"; }
++        bind "i" { TogglePanePinned; SwitchToMode "normal"; }
++        bind "j" { MoveFocus "down"; }
++        bind "k" { MoveFocus "up"; }
++        bind "l" { MoveFocus "right"; }
++        bind "n" { NewPane; SwitchToMode "normal"; }
++        bind "p" { SwitchFocus; }
++        bind "Ctrl p" { SwitchToMode "normal"; }
++        bind "r" { NewPane "right"; SwitchToMode "normal"; }
++        bind "w" { ToggleFloatingPanes; SwitchToMode "normal"; }
++        bind "z" { TogglePaneFrames; SwitchToMode "normal"; }
++    }
++    tab {
++        bind "left" { GoToPreviousTab; }
++        bind "down" { GoToNextTab; }
++        bind "up" { GoToPreviousTab; }
++        bind "right" { GoToNextTab; }
++        bind "1" { GoToTab 1; SwitchToMode "normal"; }
++        bind "2" { GoToTab 2; SwitchToMode "normal"; }
++        bind "3" { GoToTab 3; SwitchToMode "normal"; }
++        bind "4" { GoToTab 4; SwitchToMode "normal"; }
++        bind "5" { GoToTab 5; SwitchToMode "normal"; }
++        bind "6" { GoToTab 6; SwitchToMode "normal"; }
++        bind "7" { GoToTab 7; SwitchToMode "normal"; }
++        bind "8" { GoToTab 8; SwitchToMode "normal"; }
++        bind "9" { GoToTab 9; SwitchToMode "normal"; }
++        bind "[" { BreakPaneLeft; SwitchToMode "normal"; }
++        bind "]" { BreakPaneRight; SwitchToMode "normal"; }
++        bind "b" { BreakPane; SwitchToMode "normal"; }
++        bind "h" { GoToPreviousTab; }
++        bind "j" { GoToNextTab; }
++        bind "k" { GoToPreviousTab; }
++        bind "l" { GoToNextTab; }
++        bind "n" { NewTab; SwitchToMode "normal"; }
++        bind "r" { SwitchToMode "renametab"; TabNameInput 0; }
++        bind "s" { ToggleActiveSyncTab; SwitchToMode "normal"; }
++        bind "Ctrl t" { SwitchToMode "normal"; }
++        bind "x" { CloseTab; SwitchToMode "normal"; }
++        bind "tab" { ToggleTab; }
++    }
++    resize {
++        bind "left" { Resize "Increase left"; }
++        bind "down" { Resize "Increase down"; }
++        bind "up" { Resize "Increase up"; }
++        bind "right" { Resize "Increase right"; }
++        bind "+" { Resize "Increase"; }
++        bind "-" { Resize "Decrease"; }
++        bind "=" { Resize "Increase"; }
++        bind "H" { Resize "Decrease left"; }
++        bind "J" { Resize "Decrease down"; }
++        bind "K" { Resize "Decrease up"; }
++        bind "L" { Resize "Decrease right"; }
++        bind "h" { Resize "Increase left"; }
++        bind "j" { Resize "Increase down"; }
++        bind "k" { Resize "Increase up"; }
++        bind "l" { Resize "Increase right"; }
++        bind "Ctrl n" { SwitchToMode "normal"; }
++    }
++    move {
++        bind "left" { MovePane "left"; }
++        bind "down" { MovePane "down"; }
++        bind "up" { MovePane "up"; }
++        bind "right" { MovePane "right"; }
++        bind "h" { MovePane "left"; }
++        bind "Ctrl h" { SwitchToMode "normal"; }
++        bind "j" { MovePane "down"; }
++        bind "k" { MovePane "up"; }
++        bind "l" { MovePane "right"; }
++        bind "n" { MovePane; }
++        bind "p" { MovePaneBackwards; }
++        bind "Ctrl y" { SwitchToMode "normal"; }
++        bind "tab" { MovePane; }
++    }
++    scroll {
++        bind "e" { EditScrollback; SwitchToMode "normal"; }
++        bind "s" { SwitchToMode "entersearch"; SearchInput 0; }
++    }
++    search {
++        bind "c" { SearchToggleOption "CaseSensitivity"; }
++        bind "n" { Search "down"; }
++        bind "o" { SearchToggleOption "WholeWord"; }
++        bind "p" { Search "up"; }
++        bind "w" { SearchToggleOption "Wrap"; }
++    }
++    session {
++        bind "a" {
++            LaunchOrFocusPlugin "zellij:about" {
++                floating true
++                move_to_focused_tab true
++            }
++            SwitchToMode "normal"
++        }
++        bind "c" {
++            LaunchOrFocusPlugin "configuration" {
++                floating true
++                move_to_focused_tab true
++            }
++            SwitchToMode "normal"
++        }
++        bind "Ctrl o" { SwitchToMode "normal"; }
++        bind "p" {
++            LaunchOrFocusPlugin "plugin-manager" {
++                floating true
++                move_to_focused_tab true
++            }
++            SwitchToMode "normal"
++        }
++        bind "w" {
++            LaunchOrFocusPlugin "session-manager" {
++                floating true
++                move_to_focused_tab true
++            }
++            SwitchToMode "normal"
++        }
++    }
++    shared_except "locked" {
++        bind "Alt left" { MoveFocusOrTab "left"; }
++        bind "Alt down" { MoveFocus "down"; }
++        bind "Alt up" { MoveFocus "up"; }
++        bind "Alt right" { MoveFocusOrTab "right"; }
++        bind "Alt +" { Resize "Increase"; }
++        bind "Alt -" { Resize "Decrease"; }
++        bind "Alt =" { Resize "Increase"; }
++        bind "Alt [" { PreviousSwapLayout; }
++        bind "Alt ]" { NextSwapLayout; }
++        bind "Alt f" { ToggleFloatingPanes; }
++        bind "Ctrl g" { SwitchToMode "locked"; }
++        bind "Alt h" { MoveFocusOrTab "left"; }
++        bind "Alt i" { MoveTab "left"; }
++        bind "Alt j" { MoveFocus "down"; }
++        bind "Alt k" { MoveFocus "up"; }
++        bind "Alt l" { MoveFocusOrTab "right"; }
++        bind "Alt n" { NewPane; }
++        bind "Alt o" { MoveTab "right"; }
++        bind "Alt q" { Quit; }
++    }
++    shared_except "locked" "session" {
++        bind "Ctrl o" { SwitchToMode "session"; }
++    }
++    shared_except "locked" "scroll" "search" "tmux" {
++        bind "Ctrl b" { SwitchToMode "tmux"; }
++    }
++    shared_except "locked" "scroll" "search" {
++        bind "Ctrl s" { SwitchToMode "scroll"; }
++    }
++    shared_except "locked" "tab" {
++        bind "Ctrl t" { SwitchToMode "tab"; }
++    }
++    shared_except "locked" "pane" {
++        bind "Ctrl p" { SwitchToMode "pane"; }
++    }
++    shared_except "locked" "resize" {
++        bind "Ctrl n" { SwitchToMode "resize"; }
++    }
++    shared_except "normal" "locked" "move" {
++        bind "Ctrl h" { SwitchToMode "move"; }
++    }
++    shared_except "normal" "locked" "entersearch" {
++        bind "enter" { SwitchToMode "normal"; }
++    }
++    shared_except "normal" "locked" "entersearch" "renametab" "renamepane" {
++        bind "esc" { SwitchToMode "normal"; }
++    }
++    shared_among "pane" "tmux" {
++        bind "x" { CloseFocus; SwitchToMode "normal"; }
++    }
++    shared_among "scroll" "search" {
++        bind "PageDown" { PageScrollDown; }
++        bind "PageUp" { PageScrollUp; }
++        bind "left" { PageScrollUp; }
++        bind "down" { ScrollDown; }
++        bind "up" { ScrollUp; }
++        bind "right" { PageScrollDown; }
++        bind "Ctrl b" { PageScrollUp; }
++        bind "Ctrl c" { ScrollToBottom; SwitchToMode "normal"; }
++        bind "d" { HalfPageScrollDown; }
++        bind "Ctrl f" { PageScrollDown; }
++        bind "h" { PageScrollUp; }
++        bind "j" { ScrollDown; }
++        bind "k" { ScrollUp; }
++        bind "l" { PageScrollDown; }
++        bind "Ctrl s" { SwitchToMode "normal"; }
++        bind "u" { HalfPageScrollUp; }
++    }
++    entersearch {
++        bind "Ctrl c" { SwitchToMode "scroll"; }
++        bind "esc" { SwitchToMode "scroll"; }
++        bind "enter" { SwitchToMode "search"; }
++    }
++    renametab {
++        bind "esc" { UndoRenameTab; SwitchToMode "tab"; }
++    }
++    shared_among "renametab" "renamepane" {
++        bind "Ctrl c" { SwitchToMode "normal"; }
++    }
++    renamepane {
++        bind "esc" { UndoRenamePane; SwitchToMode "pane"; }
++    }
++    shared_among "session" "tmux" {
++        bind "d" { Detach; }
++    }
++    tmux {
++        bind "left" { MoveFocus "left"; SwitchToMode "normal"; }
++        bind "down" { MoveFocus "down"; SwitchToMode "normal"; }
++        bind "up" { MoveFocus "up"; SwitchToMode "normal"; }
++        bind "right" { MoveFocus "right"; SwitchToMode "normal"; }
++        bind "space" { NextSwapLayout; }
++        bind "\"" { NewPane "down"; SwitchToMode "normal"; }
++        bind "%" { NewPane "right"; SwitchToMode "normal"; }
++        bind "," { SwitchToMode "renametab"; }
++        bind "[" { SwitchToMode "scroll"; }
++        bind "Ctrl b" { Write 2; SwitchToMode "normal"; }
++        bind "c" { NewTab; SwitchToMode "normal"; }
++        bind "h" { MoveFocus "left"; SwitchToMode "normal"; }
++        bind "j" { MoveFocus "down"; SwitchToMode "normal"; }
++        bind "k" { MoveFocus "up"; SwitchToMode "normal"; }
++        bind "l" { MoveFocus "right"; SwitchToMode "normal"; }
++        bind "n" { GoToNextTab; SwitchToMode "normal"; }
++        bind "o" { FocusNextPane; }
++        bind "p" { GoToPreviousTab; SwitchToMode "normal"; }
++        bind "z" { ToggleFocusFullscreen; SwitchToMode "normal"; }
++    }
++}
++
++// Plugin aliases - can be used to change the implementation of Zellij
++// changing these requires a restart to take effect
++plugins {
++    about location="zellij:about"
++    compact-bar location="zellij:compact-bar"
++    configuration location="zellij:configuration"
++    filepicker location="zellij:strider" {
++        cwd "/"
++    }
++    plugin-manager location="zellij:plugin-manager"
++    session-manager location="zellij:session-manager"
++    status-bar location="zellij:status-bar"
++    strider location="zellij:strider"
++    tab-bar location="zellij:tab-bar"
++    welcome-screen location="zellij:session-manager" {
++        welcome_screen true
++    }
++}
++
++// Plugins to load in the background when a new session starts
++// eg. "file:/path/to/my-plugin.wasm"
++// eg. "https://example.com/my-plugin.wasm"
++load_plugins {
++}
++ 
++// Use a simplified UI without special fonts (arrow glyphs)
++// Options:
++//   - true
++//   - false (Default)
++// 
++// simplified_ui true
++ 
++// Choose the theme that is specified in the themes section.
++// Default: default
++// 
++theme "catppuccin-mocha"
++ 
++// Choose the base input mode of zellij.
++// Default: normal
++// 
++// default_mode "locked"
++ 
++// Choose the path to the default shell that zellij will use for opening new panes
++// Default: $SHELL
++// 
++// default_shell "fish"
++ 
++// Choose the path to override cwd that zellij will use for opening new panes
++// 
++// default_cwd "/tmp"
++ 
++// The name of the default layout to load on startup
++// Default: "default"
++// 
++// default_layout "compact"
++ 
++// The folder in which Zellij will look for layouts
++// (Requires restart)
++// 
++// layout_dir "/tmp"
++ 
++// The folder in which Zellij will look for themes
++// (Requires restart)
++// 
++// theme_dir "/tmp"
++ 
++// Toggle enabling the mouse mode.
++// On certain configurations, or terminals this could
++// potentially interfere with copying text.
++// Options:
++//   - true (default)
++//   - false
++// 
++// mouse_mode false
++ 
++// Toggle having pane frames around the panes
++// Options:
++//   - true (default, enabled)
++//   - false
++// 
++pane_frames false
++ 
++// When attaching to an existing session with other users,
++// should the session be mirrored (true)
++// or should each user have their own cursor (false)
++// (Requires restart)
++// Default: false
++// 
++// mirror_session true
++ 
++// Choose what to do when zellij receives SIGTERM, SIGINT, SIGQUIT or SIGHUP
++// eg. when terminal window with an active zellij session is closed
++// (Requires restart)
++// Options:
++//   - detach (Default)
++//   - quit
++// 
++// on_force_close "quit"
++ 
++// Configure the scroll back buffer size
++// This is the number of lines zellij stores for each pane in the scroll back
++// buffer. Excess number of lines are discarded in a FIFO fashion.
++// (Requires restart)
++// Valid values: positive integers
++// Default value: 10000
++// 
++// scroll_buffer_size 10000
++ 
++// Provide a command to execute when copying text. The text will be piped to
++// the stdin of the program to perform the copy. This can be used with
++// terminal emulators which do not support the OSC 52 ANSI control sequence
++// that will be used by default if this option is not set.
++// Examples:
++//
++// copy_command "xclip -selection clipboard" // x11
++// copy_command "wl-copy"                    // wayland
++// copy_command "pbcopy"                     // osx
++// 
++// copy_command "pbcopy"
++ 
++// Choose the destination for copied text
++// Allows using the primary selection buffer (on x11/wayland) instead of the system clipboard.
++// Does not apply when using copy_command.
++// Options:
++//   - system (default)
++//   - primary
++// 
++// copy_clipboard "primary"
++ 
++// Enable automatic copying (and clearing) of selection when releasing mouse
++// Default: true
++// 
++// copy_on_select true
++ 
++// Path to the default editor to use to edit pane scrollbuffer
++// Default: $EDITOR or $VISUAL
++// scrollback_editor "/usr/bin/vim"
++ 
++// A fixed name to always give the Zellij session.
++// Consider also setting `attach_to_session true,`
++// otherwise this will error if such a session exists.
++// Default: <RANDOM>
++// 
++// session_name "My singleton session"
++ 
++// When `session_name` is provided, attaches to that session
++// if it is already running or creates it otherwise.
++// Default: false
++// 
++// attach_to_session true
++ 
++// Toggle between having Zellij lay out panes according to a predefined set of layouts whenever possible
++// Options:
++//   - true (default)
++//   - false
++// 
++// auto_layout false
++ 
++// Whether sessions should be serialized to the cache folder (including their tabs/panes, cwds and running commands) so that they can later be resurrected
++// Options:
++//   - true (default)
++//   - false
++// 
++// session_serialization false
++ 
++// Whether pane viewports are serialized along with the session, default is false
++// Options:
++//   - true
++//   - false (default)
++// 
++// serialize_pane_viewport false
++ 
++// Scrollback lines to serialize along with the pane viewport when serializing sessions, 0
++// defaults to the scrollback size. If this number is higher than the scrollback size, it will
++// also default to the scrollback size. This does nothing if `serialize_pane_viewport` is not true.
++// 
++// scrollback_lines_to_serialize 10000
++ 
++// Enable or disable the rendering of styled and colored underlines (undercurl).
++// May need to be disabled for certain unsupported terminals
++// (Requires restart)
++// Default: true
++// 
++// styled_underlines false
++ 
++// How often in seconds sessions are serialized
++// 
++// serialization_interval 10000
++ 
++// Enable or disable writing of session metadata to disk (if disabled, other sessions might not know
++// metadata info on this session)
++// (Requires restart)
++// Default: false
++// 
++// disable_session_metadata false
++ 
++// Enable or disable support for the enhanced Kitty Keyboard Protocol (the host terminal must also support it)
++// (Requires restart)
++// Default: true (if the host terminal supports it)
++// 
++// support_kitty_keyboard_protocol false
++ 
++// Whether to stack panes when resizing beyond a certain size
++// Default: true
++// 
++// stacked_resize false
++ 
++// Whether to show tips on startup
++// Default: true
++// 
++show_startup_tips false
++ 
++// Whether to show release notes on first version run
++// Default: true
++// 
++// show_release_notes false
+diff --git a/dot_config/zellij/layouts/default.kdl b/dot_config/zellij/layouts/default.kdl
+new file mode 100644
+index 0000000000..bcc6c0c608
+--- /dev/null
++++ b/dot_config/zellij/layouts/default.kdl
+@@ -0,0 +1,6 @@
++layout {
++    pane size=1 borderless=true {
++        plugin location="compact-bar"
++    }
++    pane
++}
+diff --git a/dot_config/zellij/layouts/default.swap.kdl b/dot_config/zellij/layouts/default.swap.kdl
+new file mode 100644
+index 0000000000..c450ded8f3
+--- /dev/null
++++ b/dot_config/zellij/layouts/default.swap.kdl
+@@ -0,0 +1,97 @@
++tab_template name="ui" {
++    pane size=1 borderless=true {
++        plugin location="compact-bar"
++    }
++    children
++}
++
++swap_tiled_layout name="vertical" {
++    ui max_panes=5 {
++        pane split_direction="vertical" {
++            pane
++            pane { children; }
++        }
++    }
++    ui max_panes=8 {
++        pane split_direction="vertical" {
++            pane { children; }
++            pane { pane; pane; pane; pane; }
++        }
++    }
++    ui max_panes=12 {
++        pane split_direction="vertical" {
++            pane { children; }
++            pane { pane; pane; pane; pane; }
++            pane { pane; pane; pane; pane; }
++        }
++    }
++}
++
++swap_tiled_layout name="horizontal" {
++    ui max_panes=4 {
++        pane
++        pane
++    }
++    ui max_panes=8 {
++        pane {
++            pane split_direction="vertical" { children; }
++            pane split_direction="vertical" { pane; pane; pane; pane; }
++        }
++    }
++    ui max_panes=12 {
++        pane {
++            pane split_direction="vertical" { children; }
++            pane split_direction="vertical" { pane; pane; pane; pane; }
++            pane split_direction="vertical" { pane; pane; pane; pane; }
++        }
++    }
++}
++
++swap_tiled_layout name="stacked" {
++    ui min_panes=5 {
++        pane split_direction="vertical" {
++            pane
++            pane stacked=true { children; }
++        }
++    }
++}
++
++swap_floating_layout name="staggered" {
++    floating_panes
++}
++
++swap_floating_layout name="enlarged" {
++    floating_panes max_panes=10 {
++        pane { x "5%"; y 1; width "90%"; height "90%"; }
++        pane { x "5%"; y 2; width "90%"; height "90%"; }
++        pane { x "5%"; y 3; width "90%"; height "90%"; }
++        pane { x "5%"; y 4; width "90%"; height "90%"; }
++        pane { x "5%"; y 5; width "90%"; height "90%"; }
++        pane { x "5%"; y 6; width "90%"; height "90%"; }
++        pane { x "5%"; y 7; width "90%"; height "90%"; }
++        pane { x "5%"; y 8; width "90%"; height "90%"; }
++        pane { x "5%"; y 9; width "90%"; height "90%"; }
++        pane { x 10; y 10; width "90%"; height "90%"; }
++    }
++}
++
++swap_floating_layout name="spread" {
++    floating_panes max_panes=1 {
++        pane {y "50%"; x "50%"; }
++    }
++    floating_panes max_panes=2 {
++        pane { x "1%"; y "25%"; width "45%"; }
++        pane { x "50%"; y "25%"; width "45%"; }
++    }
++    floating_panes max_panes=3 {
++        pane { y "55%"; width "45%"; height "45%"; }
++        pane { x "1%"; y "1%"; width "45%"; }
++        pane { x "50%"; y "1%"; width "45%"; }
++    }
++    floating_panes max_panes=4 {
++        pane { x "1%"; y "55%"; width "45%"; height "45%"; }
++        pane { x "50%"; y "55%"; width "45%"; height "45%"; }
++        pane { x "1%"; y "1%"; width "45%"; height "45%"; }
++        pane { x "50%"; y "1%"; width "45%"; height "45%"; }
++    }
++}
+diff --git a/dot_gitconfig b/dot_gitconfig
+new file mode 100644
+index 0000000000..8850bf441e
+--- /dev/null
++++ b/dot_gitconfig
+@@ -0,0 +1,18 @@
++[user]
++        name = Alan Chung Ma
++        email = alan@chung-ma.com
++[core]
++        editor = nvim
++        pager = delta
++[interactive]
++        diffFilter = delta --color-only
++[color]
++        ui = auto
++[init]
++        defaultBranch = main
++[pull]
++        rebase = true
++[rebase]
++        updateRefs = true
++[merge]
++        conflictstyle = diff3

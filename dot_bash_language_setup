@@ -1,0 +1,5 @@
+#!/bin/bash
+
+. "$HOME/.cargo/env"
+
+[[ -s "/home/achungma/.gvm/scripts/gvm" ]] && source "/home/achungma/.gvm/scripts/gvm"
