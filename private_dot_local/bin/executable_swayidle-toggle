@@ -1,0 +1,19 @@
+#!/bin/bash
+
+set -e
+
+SWAYIDLE_PID=$(ps cx -o '%p,%c' | grep ',swayidle$' | sed -E 's/( *)([0-9]+)(,.*)/\2/')
+
+if [ ! -n "${SWAYIDLE_PID}" ]; then
+	# No swayidle found
+	swayidle -w \
+		timeout 300 swaylock \
+		timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+		before-sleep swaylock > /dev/null 2>&1 &
+	echo "swayidle started"
+else
+	# There exists a swayidle
+	kill ${SWAYIDLE_PID}
+	echo "swayidle stopped"
+fi
+
