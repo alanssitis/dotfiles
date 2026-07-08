@@ -90,8 +90,16 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
 	pattern = "*",
 	callback = function()
-		vim.highlight.on_yank()
+		vim.hl.hl_op({})
 	end,
+})
+
+----------
+-- UI 2 --
+----------
+
+require('vim._core.ui2').enable({
+	enable = true,
 })
 
 -------------
@@ -113,18 +121,11 @@ vim.api.nvim_create_autocmd("PackChanged", { callback = hooks })
 
 -- COLORSCHEME --
 vim.pack.add({ {
-	src = "https://github.com/catppuccin/nvim",
-	name = "catppuccin",
+	src = "https://github.com/marko-cerovac/material.nvim",
+	name = "material",
 } })
-require("catppuccin").setup({
-	flavour = "macchiato",
-	transparent_background = true,
-	float = {
-		transparent = false,
-		solid = false,
-	},
-})
-vim.cmd.colorscheme("catppuccin-macchiato")
+vim.g.material_style = "deep ocean"
+vim.cmd.colorscheme("material")
 
 -- MINI --
 vim.pack.add({ "https://github.com/nvim-mini/mini.nvim" })
