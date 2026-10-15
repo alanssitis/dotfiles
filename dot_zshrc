@@ -42,7 +42,7 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 # common aliases
-alias ll='ls -alF'
+alias ll='ls -alFh'
 alias la='ls -A'
 alias l='ls -CF'
 
@@ -59,18 +59,27 @@ export EDITOR=nvim
 # local bin
 export PATH="$PATH:$HOME/.local/bin:$HOME/.cargo/bin"
 
-# BEGIN opam configuration
-# This is useful if you're using opam as it adds:
-#   - the correct directories to the PATH
-#   - auto-completion for the opam binary
-# This section can be safely removed at any time if needed.
-[[ ! -r '/home/alan/.opam/opam-init/init.zsh' ]] || source '/home/alan/.opam/opam-init/init.zsh' > /dev/null 2> /dev/null
-# END opam configuration
+# nvm
+if [ -z "${NVM_DIR:-}" ]; then
+  NVM_DIR="$HOME/.nvm"
+  [ -n "${XDG_CONFIG_HOME:-}" ] && NVM_DIR="$XDG_CONFIG_HOME/nvm"
+fi
+export NVM_DIR
+[ ! -e "$NVM_DIR" ] && mkdir -vp "$NVM_DIR"
+[ ! -e "$NVM_DIR/nvm.sh" ] && ln -vs /usr/share/nvm/nvm.sh "$NVM_DIR/nvm.sh"
+[ ! -e "$NVM_DIR/nvm-exec" ] && ln -vs /usr/share/nvm/nvm-exec "$NVM_DIR/nvm-exec"
+
+# pnpm 
+export PNPM_HOME="/root/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME/bin:"*) ;;
+  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
+esac
 
 #####################
 ### terminal init ###
 #####################
 
-eval "$(fzf --zsh)"
 eval "$(zoxide init zsh --cmd cd)"
 eval "$(starship init zsh)"
+eval "$(fzf --zsh)"
