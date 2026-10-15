@@ -1,3 +1,7 @@
+Host homelab.internal
+	HostName 192.168.8.214
+	User core
+
 Host pets-env
 	Hostname bergheim.outreach.d.cispa.de
 	User u7083348
@@ -46,7 +50,16 @@ Host aleph
 	User achungma
 	ProxyJump cispa-jump
 	LocalForward 8888 localhost:8888
+	IdentityFile ~/.ssh/id_ed25519_sk
+
+Host demeter
+	Hostname srv-26-0011.a.cispa.de
+	User achungma
+	ProxyJump cispa-jump
+	LocalForward 8888 localhost:8888
+	IdentityFile ~/.ssh/id_ed25519_sk
 
 Host cispa-jump
 	User c01alch
 	HostName ssh.cispa.de
+	IdentityFile ~/.ssh/cispa

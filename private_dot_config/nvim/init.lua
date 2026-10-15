@@ -21,8 +21,10 @@ vim.opt.relativenumber = true
 -- separate concerns between nvim and system
 vim.opt.clipboard = "unnamedplus"
 
--- enable break indent
+-- enable wrapping, break indent, and line break
+vim.opt.wrap = true
 vim.opt.breakindent = true
+vim.opt.linebreak = true
 
 -- save undo history
 vim.opt.undofile = true
@@ -52,7 +54,7 @@ vim.opt.inccommand = "split"
 vim.opt.cursorline = true
 
 -- line to keep above and below cursor
-vim.opt.scrolloff = 5
+vim.opt.scrolloff = 10
 
 -- highlight on search
 vim.opt.hlsearch = true
@@ -98,6 +100,11 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 -- PLUGINS --
 -------------
 
+-- UI2 --
+require("vim._core.ui2").enable({
+	enable = true,
+})
+
 local hooks = function(ev)
 	local name, kind = ev.data.spec.name, ev.data.kind
 	if name == "treesitter" and (kind == "install" or kind == "update") then
@@ -118,11 +125,6 @@ vim.pack.add({ {
 } })
 require("catppuccin").setup({
 	flavour = "macchiato",
-	transparent_background = true,
-	float = {
-		transparent = false,
-		solid = false,
-	},
 })
 vim.cmd.colorscheme("catppuccin-macchiato")
 
@@ -248,6 +250,10 @@ require("oil").setup({
 	},
 })
 vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "[-] Open parent directory" })
+
+-- LEAN --
+vim.pack.add({ "https://github.com/Julian/lean.nvim" })
+vim.g.lean_config = { mappings = true }
 
 -- OTHER PLUGINS --
 vim.pack.add({
