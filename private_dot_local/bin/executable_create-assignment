@@ -16,17 +16,6 @@ declare -A PRESET_TITLE=(
 	['Lean for Algorithms']='Assignment '
 )
 
-PLUGIN_VERSION="1.0.0"
-
-CLASS=$(gum choose "${CLASSES[@]}")
-HANDOUT_PATH=$(find ~/Downloads $(pwd) -maxdepth 1 -type f | fzf --layout=reverse --delimiter / --with-nth -2..)
-TITLE=$(gum input --prompt="title: " --value="${PRESET_TITLE["${CLASS}"]}")
-DUE_DATE=$(gum input --prompt="due date: " --value=$(date -I))
-
-DUE_YEAR=${DUE_DATE:0:4}
-DUE_MONTH=${DUE_DATE:5:2}
-DUE_DAY=${DUE_DATE:8:2}
-
 declare -A PRESET_HELPERS=(
 
 ['Database Systems']=$(cat <<EOF
@@ -40,6 +29,17 @@ EOF
 )
 
 )
+
+PLUGIN_VERSION="1.0.0"
+
+CLASS=$(gum choose "${CLASSES[@]}")
+
+TITLE=$(gum input --prompt="title: " --value="${PRESET_TITLE["${CLASS}"]}")
+DUE_DATE=$(gum input --prompt="due date: " --value=$(date -I))
+
+DUE_YEAR=${DUE_DATE:0:4}
+DUE_MONTH=${DUE_DATE:5:2}
+DUE_DAY=${DUE_DATE:8:2}
 
 cat <<EOF > ${ASSIGNMENT_DIR}/submission.typ
 #import "@local/assignment:${PLUGIN_VERSION}": assignment
@@ -63,4 +63,7 @@ ${PRESET_HELPERS["${CLASS}"]}
 // Start here!
 EOF
 
-mv ${HANDOUT_PATH} ${ASSIGNMENT_DIR}/handout.pdf
+HANDOUT_PATH=$(gum confirm "Is there a handout to find?" && find ~/Downloads $(pwd) -maxdepth 1 -type f | fzf --layout=reverse --delimiter / --with-nth -2..)
+if [ -n ${HANDOUT_PATH} ];then
+	mv ${HANDOUT_PATH} ${ASSIGNMENT_DIR}/handout.pdf
+fi
